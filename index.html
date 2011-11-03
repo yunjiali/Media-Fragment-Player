@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:foaf="http://xmlns.com/foaf/0.1/" 
+	xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+  <head>
+  	<!-- meta data -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Media Fragment Player Demo page</title>
+    <meta name="description" content="This is media fragment player demo page" />
+    <meta name="author" content="Yunjia Li" />
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- stylessheets -->
+   	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css" media="all" />
+    <link rel="stylesheet" href="css/default.css" media="all" />
+    <!-- javascript -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script type="text/javascript" src="js/dependencies/jquery.media.js"></script>
+    <script type="text/javascript" src="js/dependencies/jquery.url.js"></script>
+	<script type="text/javascript" src="js/dependencies/jwplayer/jwplayer.js"></script>
+	<script type="text/javascript" src="js/dependencies/wmvplayer/silverlight.js"></script>
+	<script type="text/javascript" src="js/dependencies/wmvplayer/wmvplayer.js"></script>
+	<script type="text/javascript" src="js/dependencies/swfobject.js"></script>
+	<script type="text/javascript" src="js/player.util.js"></script>
+	<script type="text/javascript" src="js/player.settings.js"></script>
+	<script type="text/javascript" src="js/Base.js"></script>
+	<script type="text/javascript" src="js/player.timer.js"></script>
+	<script type="text/javascript" src="js/player.multimedia.js"></script>
+	<script type="text/javascript" src="js/player.multimedia_factory.js"></script>
+    <script id="scriptInit" type="text/javascript">
+		//In case I forget to remove console.log in IE
+		var alertFallback = true;
+		if (typeof console === "undefined" || typeof console.log === "undefined") {
+		     console = {};
+		     if (alertFallback) {
+		         console.log = function(msg) {
+		              //Do nothing
+		         };
+		     } else {
+		         console.log = function() {};
+		     }
+		};
+		//change xaml, swf path here!!!!!
+		//Yes, you have to do it!
+	</script>
+  </head>
+
+  <body>
+    <div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <a class="brand" href="#">Synote Media Fragment Player</a>
+          <div class="pull-right">
+          	<ul class="nav">
+	            <li class="active"><a href="#">Home</a></li>
+	            <li><a href="#about">About</a></li>
+	            <li><a href="#contact">Contact</a></li>
+	          </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="content">
+        <div class="page-header">
+          <h1>Demo Page</h1>
+        </div>
+        <div class="row">
+          <div class="span16">
+            <h2>Media Fragment URI</h2>
+            <div id="recording_content_div" class="span12 offset1">
+            	<div class="row" id="control_time_div" >
+					<span id="time_current_position">00:00</span> / <span id="time_duration_span">00:00</span>
+				</div>
+				<br/>
+				<div class="row" id="multimedia_player_div">
+				</div>
+				<br/>
+				<div class="row" id="recording_control_div">
+					<button class="btn" id="control_play" title="Play">Play</button>
+					<button class="btn" id="control_pause" title="Pause">Pause</button>
+					<button class="btn" id="control_stop" title="Stop">Stop</button>
+					<button class="btn" id="control_rewind" title="Rewind">Rewind</button>
+					<button class="btn" id="control_forward" title="Forward">Forward</button>
+					<div id="control_pace_div" class="combowrap" style="display:inline-block;">
+						Pace:
+						<select class="span2" name="control_pace_select" id="control_pace_select">
+							<option value="1">1s</option>
+							<option value="5">5s</option>
+							<option value="10">10s</option>
+							<option value="20">20s</option>
+						</select>
+					</div>
+					<input class="span2" type="text" size="10" name="control_goto_tb" id="control_goto_tb" value="00:00:00"/>
+					<button class="btn" id="control_goto" title="Go to a certain time">Goto</button>
+				</div>
+		    </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="span16">
+            <h2>Dependency Libraries</h2>
+            <ul>
+            	<li>
+            		jQuery 1.6.2
+            	</li>
+            	<li>
+            		JW player 5
+            	</li>
+            	<li>
+            		JW Sliverlight Player (Modified)
+            	</li>
+            	<li>
+            		jQuery Media Plugin
+            	</li>
+            	<li>
+            		jQuery url Plugin
+            	</li>
+            	<li>
+            		Base.js, version 1.1a
+            	</li>
+            	<li>
+            		swfobject
+            	</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <p>&copy; 2011 University of Southampton</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>
