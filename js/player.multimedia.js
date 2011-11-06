@@ -48,64 +48,7 @@ var MultimediaBase = Base.extend({
 	},
 	
 	initPlayer:function(isAudio){
-		//in the base class init player's control panels
-		
-		//init control buttons
-		$("#control_play").button({
-			text:false,
-			icons:{
-				primary:"ui-icon-play"
-			}
-		});
-		$("#control_pause").button({
-			text:false,
-			icons:{
-				primary:"ui-icon-pause"
-			}
-		});
-		$("#control_stop").button({
-			text:false,
-			icons:{
-				primary:"ui-icon-stop"
-			}
-		});
-		$("#control_rewind").button({
-			text:false,
-			icons:{
-				primary:"ui-icon-seek-prev"
-			}
-		});
-		$("#control_forward").button({
-			text:false,
-			icons:{
-				primary:"ui-icon-seek-next"
-			}
-		});
-		$("#control_pace_div select").combobox();
-		$("#control_pace_div input").width(30);
-		$("#control_goto_tb").mask("99:99:99");
-		$("#control_goto").button({
-			text:false,
-			icons:{
-				primary:"ui-icon-clock"
-			}
-		}).click(function()
-		{
-			var pos = stringToMilisec($("#control_goto_tb").val());
-			//console.log("pos:"+pos);
-			multimedia.setPosition(pos);
-		});
-		
-		$("#control_goto_tb").keyup(function(event){
-		//Yunjia: here is a bug for IE (and Safari maybe). Keyup event is not captured by IE, so when you click "enter", you just open
-			//the settings dropdownmenu
-			var keycode = (event.which)?event.which:event.keyCode;
-			if(keycode == 13){
-					//console.log("13");
-					event.preventDefault();
-					$("#control_goto").click();
-			}
-		});
+		//Do nothing
 	},
 	refresh:function(){},
 	resize:function(width,height){},
@@ -117,6 +60,7 @@ var MultimediaBase = Base.extend({
 	getPosition:function(){},
 	setPosition:function(){},
 	getDuration:function(){},
+	/* Yunjia Li:
 	setDurationSpan:function()
 	{
 		var time_duration_span = $("#time_duration_span");
@@ -131,7 +75,7 @@ var MultimediaBase = Base.extend({
 		var currentPosition = multimedia.getPosition();
 		if(currentPosition >0)
 			time_current_span.text(milisecToString(currentPosition));
-	},
+	},*/
 	initListeners:function(){},
 })
 
@@ -149,8 +93,8 @@ var JWPlayer = MultimediaBase.extend({
 	{
 		this.base(isAudio);
 		//console.log("init jwplayer");
-		var playerURL = g.resource({dir:'swf',file:'player.swf'});
-		var playerSkin = g.resource({dir:'images/jwplayer',file:'stormtrooper.zip'});
+		var playerURL = jw_swf_path; //Yunjia Li:
+		//Yunjia Li:var playerSkin = g.resource({dir:'images/jwplayer',file:'stormtrooper.zip'});
 		if(isAudio)
 		{
 			this.height = this.height_audio;
@@ -162,12 +106,12 @@ var JWPlayer = MultimediaBase.extend({
 		    'controlbar': 'bottom',
 		    'width': this.width,
 		    'height': this.height,
-		    'skin': playerSkin,
+		    //Yunjia Li:'skin': playerSkin,
 		    events:{
 		    	onPlay:function(event)
 			    {
-			    	if(event.oldstate == "BUFFERING" )
-			    		multimedia.setDurationSpan();
+			    	//Yunjia Li: if(event.oldstate == "BUFFERING" )
+			    		//multimedia.setDurationSpan();
 			    }
 		    }
 		  });
@@ -274,7 +218,7 @@ var SilverlightPlayer = MultimediaBase.extend({
 	initPlayer:function(isAudio)
 	{
 		this.base(isAudio);
-		var xaml = g.resource({dir:'js/wmvplayer',file:'wmvplayer.xaml'});
+		var xaml = jw_wmvplayer_path;
 		//console.log("xaml:"+xaml);
 		//var playerSkin = g.resource({dir:'images/jwplayer',file:'stormtrooper.zip'});
 		if(isAudio)
@@ -380,7 +324,7 @@ var SilverlightPlayer = MultimediaBase.extend({
 				if(ost.toUpperCase() == "OPENING" || ost.toUpperCase() == "CLOSED")
 				{
 					//console.log("set duration");
-					multimedia.setDurationSpan();
+					//Yunjia Li:multimedia.setDurationSpan();
 				}
 			});
 		}
@@ -424,6 +368,7 @@ var WindowsMediaPlayer = MultimediaBase.extend({
 		var wmp_media = $("<a/>",{
 			href:this.recording.url
 		}).addClass("media").appendTo(this.inner_container);
+		//use jquery media plugin to initiialise Windows Media Player
 		$('#multimedia_player_div .media').media({
 			width:this.width,
 			height:this.height+36, //the extra 36 makes sure you can see the status bar

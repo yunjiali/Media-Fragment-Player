@@ -23,12 +23,12 @@ MultimediaFactory.prototype.getPlayerType = function(recording)
 	{
 		if($.inArray(protocol,jw_protocol_list))
 		{
-			console.log("jw protocol");
+			//console.log("jw protocol");
 			return PlayerType.jwplayer;
 		}
 		else if ($.inArray(protocol,sl_protocol_list))
 		{	
-			console.log("sl protocol");
+			//console.log("sl protocol");
 			return PlayerType.silverlight;
 		}
 	}
@@ -140,15 +140,17 @@ MultimediaFactory.prototype.getMultimediaPlayer = function(recording,outer_conta
 	}
 	else if(playertype == PlayerType.wmp)
 	{
-		console.log("return wmp");
+		//console.log("return wmp");
 		return new WindowsMediaPlayer(recording, outer_container,inner_container);
 	}
 	else if(playertype==PlayerType.Unknown)
 	{
-		return MultimediaBase(recording, outer_container,inner_container);
+		//Yunjia Li:return MultimediaBase(recording, outer_container,inner_container);
+		return null;
 	}
 	else
 	{
-		return MultimediaBase(recording, outer_container,inner_container);
+		//Yunjia Li:return MultimediaBase(recording, outer_container,inner_container);
+		return null;
 	}
 }
