@@ -50,7 +50,7 @@ var MediaFragmentController = Base.extend({
 	{
 		var st = mf_json.hash.t[0].start;
 		//multimedia.play();
-		multimedia.setPosition(st*1000);
+		multimedia.playFrom(st*1000);
 		$(document).everyTime(this.CHECK_PERIOD,"middle",function()
 		{
 			var et = mf_json.hash.t[0].end;
@@ -64,7 +64,6 @@ var MediaFragmentController = Base.extend({
 	playback_end:function()
 	{
 		var st = mf_json.hash.t[0].start;
-		multimedia.play();
-		multimedia.setPosition(st*1000);
+		multimedia.playFrom(st*1000);
 	}
 });

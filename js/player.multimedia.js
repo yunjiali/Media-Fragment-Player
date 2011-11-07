@@ -26,7 +26,6 @@ var MultimediaBase = Base.extend({
 	
 	height:0,
 	width:0,
-	
 	player:null,
 	
 	constructor:function(recording, outer_container, inner_container)
@@ -53,6 +52,7 @@ var MultimediaBase = Base.extend({
 	refresh:function(){},
 	resize:function(width,height){},
 	play:function(){},
+	playFrom:function(st){}, //start playing from time st, st is in miliseconds
 	pause:function(){},
 	stop:function(){},
 	rewind:function(){},
@@ -126,6 +126,18 @@ var JWPlayer = MultimediaBase.extend({
 		var p = multimedia.player;
 		if(p)
 			p.play();
+		else
+			console.log("jw player is null");
+	},
+	playFrom:function(st)
+	{
+		if(multimedia)
+		{
+			multimedia.play();
+			//console.log("st:"+st);
+			//Yunjia: check buffering first and then set position
+			setTimeout("multimedia.setPosition("+st+")",2000);
+		}
 		else
 			console.log("jw player is null");
 	},
@@ -242,29 +254,58 @@ var SilverlightPlayer = MultimediaBase.extend({
 	play:function()
 	{
 		//console.log("play:::");
+		
 		var p = multimedia.player;
-		if(p)
+		if(!p)
 		{
-			p.sendEvent('PLAY');
-		}
-		else
 			console.log("silverlight player is null");
+		}
+		else if(!p.controller)
+			setTimeout(multimedia.play,100);
+			//console.log("controller null");
+		else
+			p.sendEvent('PLAY');
+			
+	},
+	playFrom:function(st)
+	{
+		var p = multimedia.player;
+		if(!p)
+		{
+			console.log("silverlight player is null");
+		}
+		else if(!p.controller)
+			setTimeout("multimedia.playFrom("+st+")",100);
+		else
+		{
+			multimedia.play();
+			//console.log("st:"+st);
+			setTimeout("multimedia.setPosition("+st+")",100);
+		}
 	},
 	pause:function()
 	{
 		var p = multimedia.player;
-		if(p)
-			p.sendEvent('PLAY');
-		else
+		if(!p)
+		{
 			console.log("silverlight player is null");
+		}
+		else if(!p.controller)
+			setTimeout(multimedia.pause,100);
+		else
+			p.sendEvent('PLAY');
 	},
 	stop:function()
 	{
 		var p = multimedia.player;
-		if(p)
-			p.sendEvent('STOP');
-		else
+		if(!p)
+		{
 			console.log("silverlight player is null");
+		}
+		else if(!p.controller)
+			setTimeout(multimedia.stop,100);
+		else
+			p.sendEvent('STOP');
 	},
 	//Yunjia: rewind and forward is not accurate when the player is playing
 	rewind:function(pace)
@@ -287,32 +328,43 @@ var SilverlightPlayer = MultimediaBase.extend({
 	getPosition:function()
 	{
 		var p = multimedia.player;
-		//console.log("sl getpos:"+p.getEvent("POSITION"));
-		if(p)
-			return p.getEvent("POSITION")*1000;
-		else
+		if(!p)
 		{
+			console.log("silverlight player is null");
 			return null;
 		}
+		else if(!p.controller)
+			setTimeout(multimedia.getPosition,100);
+		else
+			return p.getEvent("POSITION")*1000;
 	},
 	setPosition:function(position)
 	{
 		var p = multimedia.player;
-		if(p)
-			p.sendEvent('SCRUB',position/1000);
-		else
+		if(!p)
+		{
 			console.log("silverlight player is null");
+		}
+		else if(!p.controller)
+		{
+			console.log("controller null");
+			setTimeout(multimedia.setPosition,1000);
+		}
+		else
+			p.sendEvent('SCRUB',position/1000);
 	},
 	getDuration:function()
 	{
 		var p = multimedia.player;
-		if(p)
-			return p.getEvent("DURATION")*1000;
-		else
+		if(!p)
 		{
-			return null;
-			console.log("jw player is null");
+			console.log("silverlight player is null");
 		}
+		else if(!p.controller)
+			setTimeout(multimedia.getDuration,100);
+		else
+			return p.getEvent("DURATION")*1000;
+		
 	},
 	addListeners:function()
 	{
@@ -425,6 +477,16 @@ var WindowsMediaPlayer = MultimediaBase.extend({
 		if(p && p.controls)
 		{
 			p.controls.play();
+		}
+		else
+			console.log("window media player is null");
+	},
+	playFrom:function(st)
+	{
+		var p = multimedia.player;
+		if(p && p.controls)
+		{
+			multimedia.setPosition(st);
 		}
 		else
 			console.log("window media player is null");

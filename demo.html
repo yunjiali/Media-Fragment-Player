@@ -36,7 +36,7 @@
     	
     	var recording = null; //the object for multimedia resource
     	var factory = null; //multimedi player factory
-    	var controller = null; //player timer
+    	var ctrler= null; //media fragment controller
     	var multimedia = null; // multimedia object which will be displayed on the web page
     	var mf_json = null; //Json object of media fragments information
     	var jw_swf_path = "swf/player.swf";
@@ -83,8 +83,8 @@
 				if(multimedia != null)
 				{
 					multimedia.initPlayer(factory.isAudio);
-					controller = new MediaFragmentController();
-					controller.start_playback();
+					ctrler = new MediaFragmentController();
+					ctrler.start_playback();
 					//timer.run();
 				}
 				else
