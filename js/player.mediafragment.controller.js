@@ -67,6 +67,13 @@ var MediaFragmentController = Base.extend({
 			}
 		}
 		
+		if(unit=="clock")
+		{
+			//TODO:Not implemented yet
+			this.playback_entire();
+			return;
+		}
+		
 		//TODO: Use getDuration() method to decide if et > duration
 		if(st == 0 && et > st) // st = 0 or not provided, et is prvided
 		{
