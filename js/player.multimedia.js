@@ -26,6 +26,8 @@ var MultimediaBase = Base.extend({
 	
 	height:0,
 	width:0,
+	
+	autoStart:true,
 	player:null,
 	
 	constructor:function(recording, outer_container, inner_container)
@@ -46,7 +48,7 @@ var MultimediaBase = Base.extend({
 		return inner_container;
 	},
 	
-	initPlayer:function(isAudio){
+	initPlayer:function(isAudio,startPosition){ //startPosition is in miliseconds
 		//Do nothing
 	},
 	refresh:function(){},
@@ -57,8 +59,8 @@ var MultimediaBase = Base.extend({
 	stop:function(){},
 	rewind:function(){},
 	forward:function(){},
-	getPosition:function(){},
-	setPosition:function(){},
+	getPosition:function(){}, //in miliseconds
+	setPosition:function(position){}, //in miliseconds
 	getDuration:function(){},
 	/* Yunjia Li:
 	setDurationSpan:function()
@@ -89,7 +91,7 @@ var JWPlayer = MultimediaBase.extend({
 	{
 		this.base(recording, outer_container, inner_container);
 	},
-	initPlayer:function(isAudio)
+	initPlayer:function(isAudio, startPosition)
 	{
 		this.base(isAudio);
 		//console.log("init jwplayer");
@@ -106,6 +108,8 @@ var JWPlayer = MultimediaBase.extend({
 		    'controlbar': 'bottom',
 		    'width': this.width,
 		    'height': this.height,
+		    'autostart':this.autoStart,
+		    'start':startPosition/1000,
 		    //Yunjia Li:'skin': playerSkin,
 		    events:{
 		    	onPlay:function(event)
@@ -133,10 +137,11 @@ var JWPlayer = MultimediaBase.extend({
 	{
 		if(multimedia)
 		{
-			multimedia.play();
-			//console.log("st:"+st);
+			//multimedia.play();
+			console.log("st:"+st);
 			//Yunjia: check buffering first and then set position
-			setTimeout("multimedia.setPosition("+st+")",2000);
+			//setTimeout("multimedia.setPosition("+st+")",2000);
+			multimedia.setPosition(st);
 		}
 		else
 			console.log("jw player is null");
@@ -227,7 +232,7 @@ var SilverlightPlayer = MultimediaBase.extend({
 	{
 		this.base(recording, outer_container, inner_container);
 	},
-	initPlayer:function(isAudio)
+	initPlayer:function(isAudio, startPosition)
 	{
 		this.base(isAudio);
 		var xaml = jw_wmvplayer_path;
@@ -241,13 +246,19 @@ var SilverlightPlayer = MultimediaBase.extend({
 		var cfg = {
 			file:this.recording.url,
 			width:this.width,
-			height:this.height
+			height:this.height,
+			autostart:this.autoStart,
+			start:startPosition/1000
 		}
 		//No skin is avaliable for silverlight player
 		//var elm = document.getElementById("multimedia_player_div");
 		var sliverlightplayer = new jeroenwijering.Player(this.inner_container.get(0),xaml,cfg);
 		this.player = sliverlightplayer;
 		this.initListeners();
+		if(startPosition && startPosition >0 )
+		{
+			this.playFrom(startPosition);
+		}
 	},
 	refresh:function(){},
 	resize:function(width,height){},
@@ -269,6 +280,7 @@ var SilverlightPlayer = MultimediaBase.extend({
 	},
 	playFrom:function(st)
 	{
+		//console.log("st:"+st);
 		var p = multimedia.player;
 		if(!p)
 		{
@@ -407,7 +419,7 @@ var WindowsMediaPlayer = MultimediaBase.extend({
 	{
 		this.base(recording, outer_container, inner_container);
 	},
-	initPlayer:function(isAudio)
+	initPlayer:function(isAudio, startPosition)
 	{
 		this.base(isAudio);
 		
@@ -424,11 +436,11 @@ var WindowsMediaPlayer = MultimediaBase.extend({
 		$('#multimedia_player_div .media').media({
 			width:this.width,
 			height:this.height+36, //the extra 36 makes sure you can see the status bar
-			autoplay:false
+			autoplay:true
 		});
 		
-		/* Yunjia: The following code doesn't work directly, why?
-		 * var wmp_obj = $("<object/>",{
+		/* Yunjia: The following code doesn't work directly, why?*/
+		/* var wmp_obj = $("<object/>",{
 			id:"wmp_obj",
 			classid:"clsid:6BF52A52-394A-11D3-B153-00C04F79FAA6",
 			//codebase:"http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#version=5,1,52,701",
@@ -436,8 +448,8 @@ var WindowsMediaPlayer = MultimediaBase.extend({
 			//type:"application/x-oleobject",
 			width:this.width,
 			height:this.height+20,
-			type:"application/x-mplayer2",
-			data:this.recording.url
+			type:"application/x-mplayer2"
+			//data:this.recording.url
 		}).appendTo(this.inner_container);
 		var autostart_param = $("<param/>",{
 			name:"autostart",
@@ -446,8 +458,8 @@ var WindowsMediaPlayer = MultimediaBase.extend({
 		var url_param = $("<param/>",{
 			name:"url",
 			value:this.recording.url
-		}).appendTo(wmp_obj);*/
-		/*var stretchtofit_param = $("<param/>",{
+		}).appendTo(wmp_obj);
+		var stretchtofit_param = $("<param/>",{
 			name:"stretchToFit",
 			value:"true"
 		}).appendTo(wmp_obj);
@@ -467,7 +479,12 @@ var WindowsMediaPlayer = MultimediaBase.extend({
 		
 		//jquery.media plugin use <object> to embed media player in all browsers, there is no embed tag!
 		this.player = $("#multimedia_player_div .media object:first").get(0);
+		//this.player = wmp_obj.get(0);
 		this.initListeners();
+		if(startPosition && startPosition >0 )
+		{
+			this.playFrom(startPosition);
+		}
 	},
 	refresh:function(){},
 	resize:function(width,height){},
@@ -479,7 +496,11 @@ var WindowsMediaPlayer = MultimediaBase.extend({
 			p.controls.play();
 		}
 		else
+		{
 			console.log("window media player is null");
+			setTimeout(multimedia.play,1000);
+		}
+			
 	},
 	playFrom:function(st)
 	{
@@ -489,7 +510,11 @@ var WindowsMediaPlayer = MultimediaBase.extend({
 			multimedia.setPosition(st);
 		}
 		else
-			console.log("window media player is null");
+		{
+			//console.log(" 1 window media player is null");
+			setTimeout("multimedia.playFrom("+st+")",500);
+		}
+			
 	},
 	pause:function()
 	{
