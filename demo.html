@@ -33,7 +33,6 @@
 	<script type="text/javascript" src="js/player.multimedia.js"></script>
 	<script type="text/javascript" src="js/player.multimedia_factory.js"></script>
     <script id="scriptInit" type="text/javascript">
-    	
     	var recording = null; //the object for multimedia resource
     	var factory = null; //multimedi player factory
     	var ctrler= null; //media fragment controller
@@ -64,7 +63,19 @@
 				var uriStr = decodeURIComponent(uri);
 				$("#mfuri").val(uriStr);
 				mf_json = MediaFragments.parseMediaFragmentsUri(uriStr);
-				//console.log(mf_json);
+				//display mf information
+				if(mf_json.hash == null && mf_json.query == null) // There is something wrong with the media fragment uri
+				{
+					var p_error = $("<p/>");
+					p_error.text("Oops! The uri you provided is not valid.");
+					$("#mf_info").addClass("alert-message block-message error").append(p_error);
+				}
+				else
+				{
+					var p_info = $("<p/>");
+					p_info.text(mf_json.toString());
+					$("#mf_info").addClass("alert-message block-message info").append(p_info);
+				}
 				//create new recording
 				var recording_url = uriStr;
 				recording = new Object();
@@ -76,13 +87,12 @@
 					recording_url = uriStr.substring(0,indexOfHash);
 				}
 				//console.log("url:"+recording_url);
-				recording.url = recording_url;
+				recording.url = recording_url.replace(/ /g,"%20");
 				//init factory
 				factory = new MultimediaFactory(recording);
 				multimedia = factory.getMultimediaPlayer(recording,$("#recording_content_div"),$("#multimedia_player_div"));
 				if(multimedia != null)
 				{
-					multimedia.initPlayer(factory.isAudio);
 					ctrler = new MediaFragmentController();
 					ctrler.start_playback();
 					//timer.run();
@@ -90,15 +100,14 @@
 				else
 				{
 					//Display error message
-					var message_div = $("#message").addClass("alert-message warning");
-					var message_p = $("<p/>",{
-						text:"Cannot find an appropriate player! Please check the if the url is valid."
-					})
-					
+					var message_p = $("<p/>");
+					message_p.text("Cannot find an appropriate player! Please check the if the url is valid.");
+					$("#mf_info").addClass("alert-message block-message error").append(message_p);
 				}
 			}
 			else
 			{
+				//console.log("hide");
 				$("#recording_content_div").hide();
 			}
 		});
@@ -112,8 +121,9 @@
           <a class="brand" href="#">Synote Media Fragment Player</a>
           <div class="pull-right">
           	<ul class="nav">
-	            <li><a href="home.html">Home</a></li>
-	            <li class="active"><a href="#">Demo</a></li>
+	            <li><a href="index.html">Home</a></li>
+	            <li><a href="tc.html">Test Cases</a></li>
+	            <li class="active"><a href="demo.html">Demo</a></li>
 	            <li><a href="about.html">About</a></li>
 	          </ul>
           </div>
@@ -127,9 +137,6 @@
         </div>
         <div class="row">
           <div class="span16">
-          	<div id="message" class="span12" style="padding-left:20px;">
-          	
-          	</div>
           	<form class="form-stacked" action="demo.html">
           		<fieldset>
           			<div class="clearfix">
@@ -142,6 +149,8 @@
 					<input class="btn" type="reset" value="Reset"></input>
           		</fieldset>		
           	</form>
+          	<div id="mf_info" class="span12" style="padding-top:15px;padding-bottom:15px;">
+			</div>
             <div id="recording_content_div" class="span12" style="padding-left:20px;">
 				<br/>
 				<div class="row" id="multimedia_player_div">
@@ -163,10 +172,18 @@
 						</select>
 					</div>
 				</div>
-				<div id="mf_info">
-					
-				</div>
 		    </div>
+		    <div class="span12" style="margin-top:15px;">
+		    	<span class="label warning">Warning:</span>
+		    	<ul>
+		    		<li>
+		    			Some file formats need to be cached before start playing from a certain offset.
+		    		</li>
+		    		<li>
+		    			Sometimes you need to replace whitespace and "+" with "%20" in the URI if the player crashes.
+		    		</li>
+		    	</ul>
+		    </div>		    
           </div>
         </div>
       </div>

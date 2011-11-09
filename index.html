@@ -28,6 +28,7 @@
           <div class="pull-right">
           	<ul class="nav">
 	            <li class="active"><a href="#">Home</a></li>
+	            <li><a href="tc.html">Test Cases</a></li>
 	            <li><a href="demo.html">Demo</a></li>
 	            <li><a href="about.html">About</a></li>
 	          </ul>
@@ -41,8 +42,42 @@
           <h1>Demo Page</h1>
         </div>
         <div class="row">
+          <div class="span14">
+            <h2>What is Synote Media Fragment Player</h2>
+            <p>
+            	Synote Media Fragment Player is a cross-browser and cross-platform player to visualise <a href="http://www.w3.org/TR/media-frags/" target="_blank">Media Fragment URIs</a>. The player 
+            	is a client-side implementation of <a href="http://www.w3.org/TR/media-frags/" target="_blank">W3C Media Fragment URI 1.0</a>. The initial work started from the <a href="http://www.synote.org" target="_blank">Synote</a> 
+            	project, which is synchronised annotation system for audio and video replaying.
+            </p>
+            <p>
+            	Given a media resource URI on the Web, Synote Media Fragment Player will automatically choose the suitable player to play back the audio or video resource based on the audio/video format, the browser and the platform. The 
+            	fragment information will be detected and the visual output will be delivered on the Web page. We also define the commonly used APIs for developers to control the player, such as play, pause, stop, forward, rewind, getPosition, 
+            	setPosition, etc. Currently, we only implement the temporal dimension. The spatial, track and name axes, which are defined in <a href="http://www.w3.org/TR/media-frags/" target="_blank">W3C Media Fragment URI 1.0</a> 
+            	will be implemented later.
+            </p>
+            <ul>
+            	<li>
+            		Supported file format: mp3, aac, m4a, ogg, wav, mp4, mov, f4v, flv, 3gp,3g2, ogv, webm, youtube.com, youtu.be, wma, wmv, avi, mpg, mpeg, m1v, mp2, mpa
+            	</li><li>	
+            		Supported browser: IE 8+ (partially, some formats do not replay correctly), Firefox 4+, Latest Google Chrome, Latest Safari
+            	</li><li>
+            		Supported platform: Windows, Mac OS X, Linux
+            	</li>
+            </ul>
+            <span class="label important">Important</span>
+            <p>
+            	Some players need special plugin or add-on for the browser. For example, to play wmv in Firefox, Sliverlight plugin will be needed.
+            </p>
+          </div>
+        </div>
+        <div class="row">
           <div class="span16">
             <h2>Example Media Fragment URIs</h2>
+            <div style="margin-top:15px;margin-bottom:15px;">
+            	<a href="demo.html?mfuri=http%3A%2F%2Fwww.w3.org%2F2008%2FWebVideo%2FFragments%2Fmedia%2Ffragf2f.ogv%23t%3D10%2C20">http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv#t=10,20</a>
+            	<br/><a href="demo.html?mfuri=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DKkWI-DHLD_M%23t%3D10%2C20">http://www.youtube.com/watch?v=KkWI-DHLD_M#t=10,20</a>
+            	<br/><a href="tc.html" class="btn primary">More test cases</a>
+            </div>
           </div>
         </div>
         <div class="row">
