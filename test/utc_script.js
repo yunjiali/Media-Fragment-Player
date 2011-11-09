@@ -101,10 +101,10 @@ function uaTCstoStr(){
 			//Yunjia Li
 			var encodedURI = encodeURIComponent("http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv"+'#'+this.mfstring.value);
 			var testLocator = "demo.html?mfuri="+encodedURI;
-			tcStr += '<td style="width:200px"><a href="' + testLocator + '" target="_blank">' + "fragf2f.ogv" + '#' + this.mfstring.value + '</a></td>';
+			tcStr += '<td><a href="' + testLocator + '" target="_blank">' + "fragf2f.ogv" + '#' + this.mfstring.value + '</a></td>';
 			tcStr += '<td>' + this.result.value + '</td>';
-			tcStr += '<td><select class="span2" name="result_' + this.label.value + '"><option value="untested">untested</option><option value="passed">passed</option><option value="failed">failed</option><option value="cantTell">cantTell</option><option value="inapplicable">inapplicable</option></select></td>';
-			tcStr += '<td><input type="text" size="40" name="comment_' + this.label.value + '"/></td></tr>';
+			tcStr += '<td id="result_'+this.label.value+'">passed</td>';
+			tcStr += '<td id="comment_' + this.label.value + '"/></td></tr>';
 			
 			$('#ua-content').append(tcStr);
 		}
