@@ -12,7 +12,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0017-UA .
 
 :TC0086-UA-assertion
@@ -23,7 +23,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0086-UA .
 
 :TC0080-UA-assertion
@@ -34,7 +34,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0080-UA .
 
 :TC0094-UA-assertion
@@ -45,7 +45,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0094-UA .
 
 :TC0061-UA-assertion
@@ -56,7 +56,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0061-UA .
 
 :TC0046-UA-assertion
@@ -67,7 +67,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0046-UA .
 
 :TC0088-UA-assertion
@@ -78,7 +78,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0088-UA .
 
 :TC0057-UA-assertion
@@ -89,7 +89,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0057-UA .
 
 :TC0051-UA-assertion
@@ -100,7 +100,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0051-UA .
 
 :TC0035-UA-assertion
@@ -111,7 +111,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0035-UA .
 
 :TC0015-UA-assertion
@@ -122,7 +122,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0015-UA .
 
 :TC0004-UA-assertion
@@ -134,7 +134,7 @@
                 earl:info "I use fragf2f.ogv as test video, the end time is not 9.97" ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0004-UA .
 
 :TC0102-UA-assertion
@@ -145,7 +145,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0102-UA .
 
 :TC0068-UA-assertion
@@ -156,7 +156,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0068-UA .
 
 :TC0064-UA-assertion
@@ -167,7 +167,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0064-UA .
 
 :TC0073-UA-assertion
@@ -178,7 +178,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0073-UA .
 
 :TC0002-UA-assertion
@@ -189,7 +189,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0002-UA .
 
 :TC0082-UA-assertion
@@ -200,7 +200,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0082-UA .
 
 :TC0093-UA-assertion
@@ -211,7 +211,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0093-UA .
 
 :TC0070-UA-assertion
@@ -222,7 +222,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0070-UA .
 
 :TC0049-UA-assertion
@@ -233,7 +233,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0049-UA .
 
 :TC0058-UA-assertion
@@ -244,7 +244,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0058-UA .
 
 :TC0067-UA-assertion
@@ -255,7 +255,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0067-UA .
 
 :TC0009-UA-assertion
@@ -267,7 +267,7 @@
                 earl:info "I tried #t=40,50, and it's passed" ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0009-UA .
 
 :TC0074-UA-assertion
@@ -279,7 +279,7 @@
                 earl:info "The parser gives start time as 0:00:60 instead of 60" ;
                 earl:outcome earl:failed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0074-UA .
 
 :TC0028-UA-assertion
@@ -290,7 +290,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0028-UA .
 
 :TC0006-UA-assertion
@@ -302,7 +302,7 @@
                 earl:info "15s is not larger than the duration of fragf2f.ogv" ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0006-UA .
 
 :TC0072-UA-assertion
@@ -314,7 +314,7 @@
                 earl:info "The parser failed to give the start time and end time" ;
                 earl:outcome earl:failed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0072-UA .
 
 :TC0081-UA-assertion
@@ -325,7 +325,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0081-UA .
 
 :TC0036-UA-assertion
@@ -336,7 +336,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0036-UA .
 
 :TC0098-UA-assertion
@@ -347,7 +347,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0098-UA .
 
 :TC0034-UA-assertion
@@ -358,7 +358,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0034-UA .
 
 :TC0079-UA-assertion
@@ -369,7 +369,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0079-UA .
 
 :TC0005-UA-assertion
@@ -380,7 +380,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0005-UA .
 
 :TC0001-UA-assertion
@@ -391,7 +391,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0001-UA .
 
 :TC0089-UA-assertion
@@ -402,7 +402,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0089-UA .
 
 :TC0077-UA-assertion
@@ -413,7 +413,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0077-UA .
 
 <http://id.ecs.soton.ac.uk/person/12034>
@@ -428,7 +428,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0054-UA .
 
 :TC0048-UA-assertion
@@ -439,7 +439,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0048-UA .
 
 :TC0062-UA-assertion
@@ -450,7 +450,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0062-UA .
 
 :TC0033-UA-assertion
@@ -462,7 +462,7 @@
                 earl:info "start from 3s and stop at 7s. The problem is the media fragment parser get 3 and 7 as start and end time respectively" ;
                 earl:outcome earl:failed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0033-UA .
 
 :TC0090-UA-assertion
@@ -473,7 +473,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0090-UA .
 
 :TC0025-UA-assertion
@@ -485,7 +485,7 @@
                 earl:info "The player cannot handle real time yet unless the starting time of the video has been given" ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0025-UA .
 
 :TC0019-UA-assertion
@@ -497,7 +497,7 @@
                 earl:info "The parser failed to parse the URI. However, smpte:0:00:03,0:00:07 will return the correct result." ;
                 earl:outcome earl:failed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0019-UA .
 
 :TC0050-UA-assertion
@@ -508,10 +508,10 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0050-UA .
 
-<http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player>
+<http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player>
       a       earl:TestSubject ;
       dct:creator <http://id.ecs.soton.ac.uk/person/12034> ;
       dct:title "Synote Media Fragment Player" .
@@ -524,7 +524,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0027-UA .
 
 :TC0087-UA-assertion
@@ -535,7 +535,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0087-UA .
 
 :TC0071-UA-assertion
@@ -546,7 +546,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0071-UA .
 
 :TC0045-UA-assertion
@@ -557,7 +557,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0045-UA .
 
 :TC0037-UA-assertion
@@ -568,7 +568,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0037-UA .
 
 :TC0011-UA-assertion
@@ -579,7 +579,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0011-UA .
 
 :TC0097-UA-assertion
@@ -590,7 +590,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0097-UA .
 
 :TC0021-UA-assertion
@@ -602,7 +602,7 @@
                 earl:info "Playback from 3s to 7s. The player doesn't realize the definition of smpte-25 and smpte-30" ;
                 earl:outcome earl:failed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0021-UA .
 
 :TC0047-UA-assertion
@@ -613,7 +613,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0047-UA .
 
 :TC0083-UA-assertion
@@ -624,7 +624,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0083-UA .
 
 :TC0096-UA-assertion
@@ -635,7 +635,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0096-UA .
 
 :TC0022-UA-assertion
@@ -646,7 +646,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0022-UA .
 
 :TC0055-UA-assertion
@@ -658,7 +658,7 @@
                 earl:info "It plays back from 7s. Should I take the smaller value or the one defined at last?" ;
                 earl:outcome earl:failed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0055-UA .
 
 :TC0024-UA-assertion
@@ -670,7 +670,7 @@
                 earl:info "The parser doesn't give the correct start and end time" ;
                 earl:outcome earl:failed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0024-UA .
 
 :TC0026-UA-assertion
@@ -681,7 +681,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:untested
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0026-UA .
 
 :TC0063-UA-assertion
@@ -692,7 +692,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0063-UA .
 
 :TC0038-UA-assertion
@@ -704,7 +704,7 @@
                 earl:info "\"npt:3\" is returned by the parser as a string. I also tried \"#t=npt:0:00:30\" and \"npt:0:00:30\" is returned" ;
                 earl:outcome earl:failed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0038-UA .
 
 :TC0053-UA-assertion
@@ -716,7 +716,7 @@
                 earl:info "Same failure reason as TC0038-UA" ;
                 earl:outcome earl:failed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0053-UA .
 
 :TC0044-UA-assertion
@@ -727,7 +727,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0044-UA .
 
 :TC0069-UA-assertion
@@ -738,7 +738,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0069-UA .
 
 :TC0052-UA-assertion
@@ -749,7 +749,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0052-UA .
 
 :TC0031-UA-assertion
@@ -760,7 +760,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0031-UA .
 
 :TC0030-UA-assertion
@@ -771,7 +771,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0030-UA .
 
 :TC0092-UA-assertion
@@ -782,7 +782,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0092-UA .
 
 :TC0095-UA-assertion
@@ -793,7 +793,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0095-UA .
 
 :TC0059-UA-assertion
@@ -805,7 +805,7 @@
                 earl:info "Same reason as TC0038-UA" ;
                 earl:outcome earl:failed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0059-UA .
 
 :TC0020-UA-assertion
@@ -816,7 +816,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0020-UA .
 
 :TC0012-UA-assertion
@@ -828,7 +828,7 @@
                 earl:info "Playback from 3s to the end. The parser indicates the start time is 3. I think it should give invalid response." ;
                 earl:outcome earl:failed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0012-UA .
 
 :TC0039-UA-assertion
@@ -840,7 +840,7 @@
                 earl:info "Same failure reason as TC0038-UA" ;
                 earl:outcome earl:failed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0039-UA .
 
 :TC0075-UA-assertion
@@ -851,7 +851,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0075-UA .
 
 :TC0101-UA-assertion
@@ -862,7 +862,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0101-UA .
 
 :TC0060-UA-assertion
@@ -873,7 +873,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0060-UA .
 
 :TC0085-UA-assertion
@@ -884,7 +884,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0085-UA .
 
 :TC0076-UA-assertion
@@ -895,7 +895,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0076-UA .
 
 :TC0066-UA-assertion
@@ -906,7 +906,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0066-UA .
 
 :TC0018-UA-assertion
@@ -917,7 +917,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0018-UA .
 
 :TC0065-UA-assertion
@@ -928,7 +928,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0065-UA .
 
 :TC0078-UA-assertion
@@ -939,7 +939,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0078-UA .
 
 :TC0032-UA-assertion
@@ -950,7 +950,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0032-UA .
 
 :TC0056-UA-assertion
@@ -961,7 +961,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:inapplicable
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0056-UA .
 
 :TC0014-UA-assertion
@@ -973,7 +973,7 @@
                 earl:info "I tried #t=40 and it's passed" ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0014-UA .
 
 :TC0091-UA-assertion
@@ -984,7 +984,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0091-UA .
 
 :TC0029-UA-assertion
@@ -995,7 +995,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0029-UA .
 
 :TC0003-UA-assertion
@@ -1006,7 +1006,7 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0003-UA .
 
 :TC0084-UA-assertion
@@ -1017,5 +1017,5 @@
               [ a       earl:TestResult ;
                 earl:outcome earl:passed
               ] ;
-      earl:subject <http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player> ;
+      earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0084-UA .
