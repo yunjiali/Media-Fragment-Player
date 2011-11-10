@@ -9,4 +9,4 @@ W3C Media Fragments URI specification (http://www.w3.org/2008/WebVideo/Fragments
 a format independent way to address media fragments on the Web using URIs. Synote Media Fragment Player 
 is a cross-browser, cross-platform and format independent client-side implemnetation of Media Fragment URI.
 
-You can find the live demo at http://synote-server.ecs.soton.ac.uk:8082/media-fragment-player/
+You can find the live demo at http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player/
