@@ -11,12 +11,7 @@ var MediaFragmentController = Base.extend({
 	//based on the conditions provided by the ua test cases to decide which of the four playback function to call
 	start_playback:function()
 	{
-		//To Steiner: #t=0:00:03 will return start:0:00:03
-		//To Steiner: why not add stringtoseconds fucntion to convert 0:00:03 to 3?
-		//To Steiner: check smpte start and end time 
-		//To Steiner: error message output
 		//To Working Group: the test cases don't have explanation on how query and hash act differently
-		
 		if(!mf_json) //media fragment is not successfully parsed
 		{
 			//console.log("mf_json entire");
@@ -27,57 +22,51 @@ var MediaFragmentController = Base.extend({
 		var st, et, unit; //st, et are in seconds
 		
 		//I just assume that the st and et in query will be rewritted by the information in hash
+		
 		if(mf_json.hash) // mf_json.hash
 		{
 			if(mf_json.hash.t)
 			{
-				st = mf_json.hash.t[0].start?mf_json.hash.t[0].start:0;
-				et = mf_json.hash.t[0].end?mf_json.hash.t[0].end:-1; //-1 means no end time is provided
 				unit = mf_json.hash.t[0].unit;
 			}
-		}	
-		
-		if(mf_json.query) //Do something to get the fragment information from query uri
-		{
-			if(mf_json.query.t)
-			{
-				st = mf_json.query.t[0].start?mf_json.hash.t[0].start:0;
-				et = mf_json.query.t[0].end?mf_json.hash.t[0].end:-1; //-1 means no end time is provided
-				unit = mf_json.query.t[0].unit;
-			}
 		}
-			
-		if(unit)
+		
+		if(unit == null)
+		{
+			this.playback_entire();
+			return;
+		}
+		else
 		{
 			unit = $.trim(unit).toLowerCase();
 		}
 		
 		if(unit == "npt")
 		{
+			
+			st = mf_json.hash.t[0].start?mf_json.hash.t[0].startNormalized:0;
+			et = mf_json.hash.t[0].end?mf_json.hash.t[0].endNormalized:-1; //-1 means no end time is provided
 			st = parseFloat(st);
 			et = parseFloat(et);
 		}
 		else if(unit=="smpte" || unit == "smpte-25" || unit == "smpte-30" || unit == "smpte-30-drop")
 		{
-			st = stringToMilisec(st)/1000; //this method is defined in player.util.js
+			st = mf_json.hash.t[0].start?mf_json.hash.t[0].start:0;
+			et = mf_json.hash.t[0].end?mf_json.hash.t[0].end:-1;
+			
+			st = smpteStringToMilisec(st)/1000; //this method is defined in player.util.js
 			//console.log("smpte st:"+st);
 			if(et != -1)
-				et = stringToMilisec(et)/1000;
+				et = smpteStringToMilisec(et)/1000;
 			//console.log("smpte et:"+et);
 			if(et!=-1 && st>et)
 			{
-				console.log("entire smpte");
+				//console.log("entire smpte");
 				this.playback_entire();
 				return;
 			}
 		}
 		//TODO: get xywh info
-		
-		//To Steiner: the parser doesn't consider npt:3 as a string, so here I have to parse this information
-		//else if(unit == "npt" )
-		//{
-			//do something
-		//}
 		
 		if(unit=="clock")
 		{

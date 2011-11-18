@@ -276,8 +276,7 @@
       earl:mode earl:manual ;
       earl:result
               [ a       earl:TestResult ;
-                earl:info "The parser gives start time as 0:00:60 instead of 60" ;
-                earl:outcome earl:failed
+                earl:outcome earl:passed
               ] ;
       earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0074-UA .
@@ -311,8 +310,7 @@
       earl:mode earl:manual ;
       earl:result
               [ a       earl:TestResult ;
-                earl:info "The parser failed to give the start time and end time" ;
-                earl:outcome earl:failed
+                earl:outcome earl:passed
               ] ;
       earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0072-UA .
@@ -459,8 +457,7 @@
       earl:mode earl:manual ;
       earl:result
               [ a       earl:TestResult ;
-                earl:info "start from 3s and stop at 7s. The problem is the media fragment parser get 3 and 7 as start and end time respectively" ;
-                earl:outcome earl:failed
+                earl:outcome earl:passed
               ] ;
       earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0033-UA .
@@ -494,8 +491,7 @@
       earl:mode earl:manual ;
       earl:result
               [ a       earl:TestResult ;
-                earl:info "The parser failed to parse the URI. However, smpte:0:00:03,0:00:07 will return the correct result." ;
-                earl:outcome earl:failed
+                earl:outcome earl:passed
               ] ;
       earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0019-UA .
@@ -655,8 +651,7 @@
       earl:mode earl:manual ;
       earl:result
               [ a       earl:TestResult ;
-                earl:info "It plays back from 7s. Should I take the smaller value or the one defined at last?" ;
-                earl:outcome earl:failed
+                earl:outcome earl:passed
               ] ;
       earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0055-UA .
@@ -667,8 +662,7 @@
       earl:mode earl:manual ;
       earl:result
               [ a       earl:TestResult ;
-                earl:info "The parser doesn't give the correct start and end time" ;
-                earl:outcome earl:failed
+                earl:outcome earl:passed
               ] ;
       earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0024-UA .
@@ -679,7 +673,8 @@
       earl:mode earl:manual ;
       earl:result
               [ a       earl:TestResult ;
-                earl:outcome earl:untested
+				earl:info "Synote Media Fragment Player currently cannot recognise the real physical time defined in ISO8601 time specification.":
+                earl:outcome earl:failed
               ] ;
       earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0026-UA .
@@ -701,8 +696,7 @@
       earl:mode earl:manual ;
       earl:result
               [ a       earl:TestResult ;
-                earl:info "\"npt:3\" is returned by the parser as a string. I also tried \"#t=npt:0:00:30\" and \"npt:0:00:30\" is returned" ;
-                earl:outcome earl:failed
+                earl:outcome earl:passed
               ] ;
       earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0038-UA .
@@ -713,8 +707,7 @@
       earl:mode earl:manual ;
       earl:result
               [ a       earl:TestResult ;
-                earl:info "Same failure reason as TC0038-UA" ;
-                earl:outcome earl:failed
+                earl:outcome earl:passed
               ] ;
       earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0053-UA .
@@ -802,8 +795,7 @@
       earl:mode earl:manual ;
       earl:result
               [ a       earl:TestResult ;
-                earl:info "Same reason as TC0038-UA" ;
-                earl:outcome earl:failed
+                earl:outcome earl:passed
               ] ;
       earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0059-UA .
@@ -825,8 +817,7 @@
       earl:mode earl:manual ;
       earl:result
               [ a       earl:TestResult ;
-                earl:info "Playback from 3s to the end. The parser indicates the start time is 3. I think it should give invalid response." ;
-                earl:outcome earl:failed
+                earl:outcome earl:passed
               ] ;
       earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0012-UA .
@@ -837,8 +828,7 @@
       earl:mode earl:manual ;
       earl:result
               [ a       earl:TestResult ;
-                earl:info "Same failure reason as TC0038-UA" ;
-                earl:outcome earl:failed
+                earl:outcome earl:passed
               ] ;
       earl:subject <http://synote-server.ecs.soton.ac.uk:8000/media-fragment-player> ;
       earl:test utc:TC0039-UA .

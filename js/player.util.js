@@ -108,6 +108,64 @@ function stringToMilisec(timeStr)
 	return time * 1000;
 }
 
+function smpteStringToMilisec(timeStr)
+{
+	if (timeStr == null || timeStr.length == 0)
+	{
+		return 0;
+	}
+
+	//The parser will ignore the frame information after last : and .
+	var smpteTimeArray = timeStr.split(':');
+	if(smpteTimeArray.length > 3) //there are frames after last :
+	{
+		var index = timeStr.lastIndexOf(":");
+		timeStr = timeStr.substring(0, index);
+	}
+	
+	var seconds = null;
+	var index = timeStr.lastIndexOf(":");
+	if (index != -1)
+	{
+		seconds = timeStr.substring(index + 1);
+		timeStr = timeStr.substring(0, index);
+	}
+	else
+	{
+		seconds = timeStr;
+		timeStr = null;
+	}
+	
+	var minutes = null;
+	index = (timeStr != null) ? timeStr.lastIndexOf(":") : -1;
+	if (index != -1)
+	{
+		minutes = timeStr.substring(index + 1);
+		timeStr = timeStr.substring(0, index);
+	}
+	else
+	{
+		minutes = timeStr;
+		timeStr = null;
+	}
+
+	var hours = timeStr;
+
+	var time = 0;
+	if (seconds != null && seconds.length != 0)
+	{
+		time += parseInt(seconds,10);
+	}
+
+	if (minutes != null && minutes.length != 0)
+		time += parseInt(minutes,10) * 60;
+
+	if (hours != null && hours.length != 0)
+		time += parseInt(hours,10) * 3600;
+
+	return time * 1000;
+}
+
 function getHostLocation()
 {
 	return document.location.protocol+"//"+window.location.host; //with / at last

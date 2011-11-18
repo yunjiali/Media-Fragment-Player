@@ -26,7 +26,7 @@ var MediaFragments = (function(window) {
   var SEPARATOR = '&';  
   
   // report errors?
-  var VERBOSE = false;
+  var VERBOSE = true;
   
   var logWarning = function(message) {
     if (VERBOSE) {
@@ -34,77 +34,165 @@ var MediaFragments = (function(window) {
     }
   }
   
-  // the currently supported media fragments dimensions are: t, xywh, track, chapter
+  // the currently supported media fragments dimensions are: t, xywh, track, id
   // allows for O(1) checks for existence of valid keys
   var dimensions = {
     t: function(value) {          
       var components = value.split(',');
+      if (components.length > 2) {
+        return false;
+      }
       var start = components[0]? components[0] : '';
       var end = components[1]? components[1] : '';
-      
-      var nptSeconds = /^((npt\:)?\d+(\.\d+)?)?$/;
-      var nptHoursMinutesSeconds = /^((npt\:)?((\d+)\:)?(\d\d)\:(\d\d)(\.\d+)?)?$/;
-      var smpte = /^(\d\:\d\d\:\d\d(\:\d\d(\.\d\d)?)?)?$/;
-      // regexp adapted from http://delete.me.uk/2005/03/iso8601.html
-      var wallClock = /^((\d{4})(-(\d{2})(-(\d{2})(T(\d{2})\:(\d{2})(\:(\d{2})(\.(\d+))?)?(Z|(([-\+])(\d{2})\:(\d{2})))?)?)?)?)?$/;
-
-      if ((nptSeconds.test(start) || nptHoursMinutesSeconds.test(start)) &&
-          (nptSeconds.test(end) || nptHoursMinutesSeconds.test(end))) {
+      if ((start === '' && end === '') ||
+          (start && !end && value.indexOf(',') !== -1)) {
+        return false;
+      }
+      // hours:minutes:seconds.milliseconds
+      var npt = /^((npt\:)?((\d+\:(\d\d)\:(\d\d))|((\d\d)\:(\d\d))|(\d+))(\.\d*)?)?$/;
+      if ((npt.test(start)) &&
+          (npt.test(end))) {
+        start = start.replace(/^npt\:/, '');
+        // replace a sole trailing dot, which is legal:
+        // npt-sec = 1*DIGIT [ "." *DIGIT ]
+        start = start.replace(/\.$/, '');
+        end = end.replace(/\.$/, '');
+        var convertToSeconds = function(time) {
+          if (time === '') {
+            return false;
+          }
+          // possible cases:
+          // 12:34:56.789
+          //    34:56.789
+          //       56.789
+          //       56
+          var hours;
+          var minutes;
+          var seconds;
+          time = time.split(':');          
+          var length = time.length;
+          if (length === 3) {
+            hours = parseInt(time[0], 10);
+            minutes = parseInt(time[1], 10);            
+            seconds = parseFloat(time[2]);
+          } else if (length === 2) {
+            var hours = 0;
+            var minutes = parseInt(time[0], 10);
+            var seconds = parseFloat(time[1]);
+          } else if (length === 1) {
+            var hours = 0;
+            var minutes = 0;            
+            var seconds = parseFloat(time[0]);
+          } else {
+            return false;
+          }
+          if (hours > 23) {
+            logWarning('Please ensure that hours <= 23.');                      
+            return false;              
+          }          
+          if (minutes > 59) {
+            logWarning('Please ensure that minutes <= 59.');                      
+            return false;
+          }
+          if (seconds >= 60) {
+            logWarning('Please ensure that seconds < 60.');                      
+            return false;
+          }    
+          return hours * 3600 + minutes * 60 + seconds;
+        };
+        var startNormalized = convertToSeconds(start);
+        var endNormalized = convertToSeconds(end);
         if (start && end) {
-          // converts hh:mm:ss.ms to ss.ms
-          function convertHoursMinutesSecondsToSeconds(time) {
-            var hours =
-                parseInt(time.replace(nptHoursMinutesSeconds, '$4'), 10);
-            if (isNaN(hours)) {
-              hours = 0;
-            }    
-            var minutes =
-                parseInt(time.replace(nptHoursMinutesSeconds, '$5'), 10);
-            if (isNaN(minutes)) {
-              minutes = 0;
-            }                
-            var seconds =
-                parseInt(time.replace(nptHoursMinutesSeconds, '$6'), 10);
-            if (isNaN(seconds)) {
-              seconds = 0;
-            }                
-            var milliseconds = time.replace(nptHoursMinutesSeconds, '$7');            
-            var result =
-                ((hours * 3600) + (minutes * 60) + (seconds)).toString() +
-                milliseconds;                
-            return result;            
-          }
-          if (nptHoursMinutesSeconds.test(start)) {
-            start = convertHoursMinutesSecondsToSeconds(start);
-          }
-          if (nptHoursMinutesSeconds.test(end)) {
-            end = convertHoursMinutesSecondsToSeconds(end);
-          }   
-          if (parseFloat(start) < parseFloat(end)) {    
+          if (startNormalized < endNormalized) {
             return {
               value: value,
               unit: 'npt',
               start: start,
-              end: end
+              end: end,
+              startNormalized: startNormalized,
+              endNormalized: endNormalized
             };
           } else {
-            logWarning('Please ensure that start < end.');                
+            logWarning('Please ensure that start < end.');                                                      
+            return false;            
+          }           
+        } else {
+          if ((convertToSeconds(start) !== false) ||
+              (convertToSeconds(end) !== false)) {
+            return {
+              value: value,
+              unit: 'npt',
+              start: start,
+              end: end,
+              startNormalized: startNormalized === false ? '' : startNormalized,
+              endNormalized: endNormalized === false ? '' : endNormalized,
+            };
+          } else {
+            logWarning('Please ensure that start or end are legal.');                                                      
             return false;
           }
-        } else {
-          return {
-            value: value,
-            unit: 'npt',
-            start: start,
-            end: end
-          };
         }
       }
+      // hours:minutes:seconds:frames.further-subdivison-of-frames
+      var smpte = /^(\d+\:\d\d\:\d\d(\:\d\d(\.\d\d)?)?)?$/;      
       var prefix = start.replace(/^(smpte(-25|-30|-30-drop)?).*/, '$1');
       start = start.replace(/^smpte(-25|-30|-30-drop)?\:/, '');      
-      if ((smpte.test(start)) && (smpte.test(end))) {            
+      if ((smpte.test(start)) && (smpte.test(end))) {
+        // we interpret frames as milliseconds, and further-subdivison-of-frames
+        // as microseconds. this allows for relatively easy comparison.
+        var convertToSeconds = function(time) {
+          if (time === '') {
+            return false;
+          }
+          // possible cases:
+          // 12:34:56
+          // 12:34:56:78
+          // 12:34:56:78.90          
+          var hours;
+          var minutes;
+          var seconds;
+          var frames;
+          var subframes;
+          time = time.split(':');          
+          var length = time.length;
+          if (length === 3) {
+            hours = parseInt(time[0], 10);
+            minutes = parseInt(time[1], 10);            
+            seconds = parseInt(time[2], 10);
+            frames = 0;
+            subframes = 0;
+          } else if (length === 4) {
+            hours = parseInt(time[0], 10);
+            minutes = parseInt(time[1], 10);            
+            seconds = parseInt(time[2], 10);
+            if (time[3].indexOf('.') === -1) {
+              frames = parseInt(time[3], 10);
+              subframes = 0;
+            } else {
+              var frameSubFrame = time[3].split('.');
+              frames = parseInt(frameSubFrame[0], 10);
+              subframes = parseInt(frameSubFrame[1], 10);              
+            }
+          } else {
+            return false;
+          }
+          if (hours > 23) {
+            logWarning('Please ensure that hours <= 23.');                      
+            return false;              
+          }          
+          if (minutes > 59) {
+            logWarning('Please ensure that minutes <= 59.');                      
+            return false;
+          }
+          if (seconds > 59) {
+            logWarning('Please ensure that seconds <= 59.');                      
+            return false;
+          }    
+          return hours * 3600 + minutes * 60 + seconds +
+              frames * 0.001 + subframes * 0.000001;
+        };        
         if (start && end) {
-          if (true /* ToDo: add check to ensure that start < end */) {    
+          if (convertToSeconds(start) < convertToSeconds(end)) {
             return {
               value: value,
               unit: prefix,
@@ -112,21 +200,31 @@ var MediaFragments = (function(window) {
               end: end
             };            
           } else {
-            logWarning('Please ensure that start < end.');                                
+            logWarning('Please ensure that start < end.');                                                      
             return false;
           }
         } else {
-          return {
-            value: value,
-            unit: prefix,
-            start: start,
-            end: end
-          };          
+          if ((convertToSeconds(start) !== false) ||
+              (convertToSeconds(end) !== false)) {
+            return {
+              value: value,
+              unit: prefix,
+              start: start,
+              end: end
+            };                      
+          } else {
+            logWarning('Please ensure that start or end are legal.');                                                      
+            return false;
+          }
         }
       }
+      // regexp adapted from http://delete.me.uk/2005/03/iso8601.html
+      var wallClock = /^((\d{4})(-(\d{2})(-(\d{2})(T(\d{2})\:(\d{2})(\:(\d{2})(\.(\d+))?)?(Z|(([-\+])(\d{2})\:(\d{2})))?)?)?)?)?$/;      
       start = start.replace('clock:', '');
       if ((wallClock.test(start)) && (wallClock.test(end))) {
-        // last condition is to ensure ISO 8601 date conformance.
+        // the last condition is to ensure ISO 8601 date conformance.
+        // not all browsers parse ISO 8601, so we can only use date parsing
+        // when it's there.
         if (start && end && !isNaN(Date.parse('2009-07-26T11:19:01Z'))) {
           // if both start and end are given, then the start must be before
           // the end
@@ -138,7 +236,7 @@ var MediaFragments = (function(window) {
               end: end
             };            
           } else {
-            logWarning('Please ensure that start < end.');                                
+            logWarning('Please ensure that start < end.');                                                      
             return false;
           }
         } else {
@@ -150,7 +248,7 @@ var MediaFragments = (function(window) {
           };          
         }
       }
-      logWarning('Invalid time dimension.');                          
+      logWarning('Invalid time dimension.');                                                
       return false;
     },
     xywh: function(value) {
@@ -165,14 +263,19 @@ var MediaFragments = (function(window) {
       var w = values[2];
       var h = values[3];                              
       if (pixelCoordinates.test(value)) {             
-        return {
-          value: value,
-          unit: 'pixel',          
-          x: x,
-          y: y,
-          w: w,
-          h: h
-        };
+        if (w > 0 && h > 0) {
+          return {
+            value: value,
+            unit: 'pixel',          
+            x: x,
+            y: y,
+            w: w,
+            h: h
+          };
+        } else {
+          logWarning('Please ensure that w > 0 and h > 0');                                      
+          return false;          
+        }
       } else if (percentSelection.test(value)) {
         /**
          * checks for valid percent selections
@@ -180,19 +283,19 @@ var MediaFragments = (function(window) {
         var checkPercentSelection = (function checkPercentSelection(
             x, y, w, h) {
           if (!((0 <= x) && (x <= 100))) { 
-            logWarning('Please ensure that 0 <= x <= 100.');                
+            logWarning('Please ensure that 0 <= x <= 100.');                                      
             return false;
           }
           if (!((0 <= y) && (y <= 100))) { 
-            logWarning('Please ensure that 0 <= y <= 100.');                
+            logWarning('Please ensure that 0 <= y <= 100.');                                      
             return false;
           }
           if (!((0 <= w) && (w <= 100))) { 
-            logWarning('Please ensure that 0 <= w <= 100.');                
+            logWarning('Please ensure that 0 <= w <= 100.');                                      
             return false;
           }
           if (!((0 <= h) && (h <= 100))) { 
-            logWarning('Please ensure that 0 <= h <= 100.');                
+            logWarning('Please ensure that 0 <= h <= 100.');                                      
             return false;
           }            
           return true;            
@@ -207,14 +310,20 @@ var MediaFragments = (function(window) {
             h: h
           };
         }
-        logWarning('Invalid percent selection.');                
+        logWarning('Invalid percent selection.');                                      
         return false;
       } else {
-        logWarning('Invalid spatial dimension.');                
+        logWarning('Invalid spatial dimension.');                                      
         return false;
       }
     },
     track: function(value) {
+      return {
+        value: value,
+        name: value
+      };
+    },
+    id: function(value) {
       return {
         value: value,
         name: value
@@ -263,16 +372,24 @@ var MediaFragments = (function(window) {
       if (!value) {
         return;
       }                        
-      // keys may appear more than once, thus store all values in an array
+      // keys may appear more than once, thus store all values in an array,
+      // the exception being &t
       if (!keyValues[key]) {
         keyValues[key] = [];
       }
-      keyValues[key].push(value);
+      if (key !== 't') {
+        keyValues[key].push(value);
+      } else {
+        keyValues[key][0] = value;
+      }
     });
     return keyValues;
   }  
   
   return {
+    parse: function(opt_uri) {
+      return MediaFragments.parseMediaFragmentsUri(opt_uri);
+    },
     parseMediaFragmentsUri: function(opt_uri) {    
       var uri = opt_uri? opt_uri : window.location.href;
       // retrieve the query part of the URI    
@@ -321,4 +438,4 @@ var MediaFragments = (function(window) {
       };
     }
   }
-})(window)
+})(window);
