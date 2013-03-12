@@ -8,12 +8,16 @@
 	
 	//more options can be found at http://mediaelementjs.com/#api
 	var defaults = {
-			width:640, //default width, no matter if it's audio or video
-			height:480, //default height, no matter if it's audio or video
+			width:640, //the width in pixal of the video on the webpage, no matter if it's audio or video
+			height:480, //the height in pixal of the video on the webpage, no matter if it's audio or video
+			originalWidth:320, //the original width in pixal of the video, used for spatial fragment 
+			originalHeight:240, //the original height in pixal of the video, used for spatial fragment
 			isVideo:true, //is the URI indicating a video or audio
-			mfAlwaysEnabled:true, //the media fragment is always enabled, i.e. you can only play the media fragment
+			mfAlwaysEnabled:false, //the media fragment is always enabled, i.e. you can only play the media fragment
 			spatialEnabled:true, //spatial dimension of the media fragment is enabled
-			autoStart:true
+			spatialStyle:{}, //a json object to specify the style of the outline of the spatial area
+			autoStart:true, //auto start playing after initialising the player
+			//xywhoverlay: jquery object of a div to identify xywh area
 			//subtitles: a JSON object, lang is the key and the uri of the subtitle is the value, the first pair is the default subtitle
 	};
 				  
@@ -56,9 +60,80 @@
 				
 			};
 			
-			this.playmf = function(st,et,xywh)//start playing from time st and stop at et, st,et are in miliseconds
+			this.playmf = function(st,et)//start playing from time st and stop at et, st,et are in miliseconds
 			{
 				
+			};
+			this.showxywh = function(xywh)
+			{
+				if(VERBOSE)
+					console.log('showxywh');
+				var data = $(this).data('smfplayer');
+				
+				//*********check data.xywhoverlay!!!*********
+				
+				if(data === undefined)
+				{
+					setTimeout(function(){
+						self.showxywh(xywh);
+					}, 100);
+					return;
+				}
+				
+				if(data.settings.xywhoverlay === undefined) //the overlay hasn't been created
+				{			
+					if(!$.isEmptyObject(xywh) && data.settings.spatialEnabled === true)
+		           	{
+			           	this.addClass('smfplayer-container');
+			           	var unit = xywh.unit;
+			           		x = xywh.x,
+			           		y = xywh.y,
+			           		w = xywh.w,
+			           		h = xywh.h;
+			           	
+			           	//unit is 'pixal' or 'percent'	
+			           	if(unit === 'percent')
+			           	{
+				           	//var wratio = data.settings.width/data.settings.originalWidth;
+				           	//var hratio = data.settings.height/data.settings.originalHeight;
+				           	
+				           	x=Math.floor((x/100)*data.settings.width);
+				           	w=Math.floor((w/100)*data.settings.width);
+				           	y=Math.floor((y/100)*data.settings.height);
+				           	h=Math.floor((h/100)*data.settings.height);
+			           	}
+			           	//var cssStr = "top:"+x+";left:"+y+";width:"+w+";height:"+h+";";
+			           	var spatial_div = $("<div/>");
+			           	spatial_div.css(data.settings.spatialStyle).css({'width':w,'height':h,'top':y+'px','left':x+'px'});
+			           	spatial_div.addClass('smfplayer-overlay').appendTo(this);
+		
+			           	spatial_div.show();
+			           	data.settings.xywhoverlay =  spatial_div;
+			        }
+			    }
+			    else
+			    {
+				    var spatial_div = data.settings.xywhoverlay;
+				    spatial_div.show();
+			    }
+			};
+			
+			this.hidexywh = function()
+			{
+				if(VERBOSE)
+					console.log('hidexywh');
+					
+				var data = $(this).data('smfplayer');
+				if(data === undefined)
+				{
+					setTimeout(function(){self.hidexywh()}, 100);	
+					return;
+				}
+				
+				if(data.settings.xywhoverlay !== undefined)
+				{
+					data.settings.xywhoverlay.hide();
+				}	
 			};
 			
 			this.stop =function(){
@@ -108,11 +183,20 @@
 				
 				
 			}; //in miliseconds
-			this.getDuration=function(){};
+			this.getDuration=function(){ //in milliseconds
+				var player = $(this).data('smfplayer').smfplayer;
+				if(player !== undefined)
+					player.duration*1000;
+				else
+					console.error("smfplayer hasn't been initalised");
+
+			};
 			/*-----------Public function declaration ends-------------*/
 			
            	//parse media fragment
            	var mfjson = MediaFragments.parseMediaFragmentsUri(settings.mfURI);
+           	if(VERBOSE)
+		          console.log(mfjson);
            	
            	var st = 0;
            	var et = -1;
@@ -125,7 +209,10 @@
 	           	et = parseFloat(et);//in seconds
            	}
            	
-           	settings.complete=function(){console.log('complete')};
+           	var xywh = {};
+           	if(!$.isEmptyObject(mfjson.hash.xywh))
+           		xywh = mfjson.hash.xywh[0];
+           	
 	     	settings.success = function(mediaElement,domObject){
 	     			     				
 	     				if(VERBOSE)
@@ -136,11 +223,21 @@
 				        {
 					        if(mediaElement.pluginType == 'flash')
 					        {
-						        mediaElement.addEventListener('canplay',function(){
+						        mediaElement.addEventListener('canplay',function(e){
+						        	console.log("canplay");
 						        	mediaElement.play();
 						        	if(st >0)
 						        	{
 							        	//self.smfplayer('setPosition',{st:st} );	
+							        	if($(self).data('smfplayer') === undefined)	
+							        		setTimeout(function(){
+									        		self.setPosition(st*1000);
+									        	},100);
+								        else
+								        {
+								        	self.setPosition(st*1000);
+								        	self.showxywh(xywh);	
+								        }
 						        	}
 						        		
 						        },false);
@@ -158,20 +255,41 @@
 								        	self.setPosition(st*1000);
 							        	},100);
 							        else
+							        {
 							        	self.setPosition(st*1000);	
-					        	}	
+							        	self.showxywh(xywh);
+							        }
+							        //self.find('.smfplayer-overlay').show();
+					        	}
 					        }
 				        }
 				        
 				        mediaElement.addEventListener('timeupdate', function(e) {
 						
 					        var currentTime = mediaElement.currentTime;
-					        console.log("c:"+currentTime);
-					        console.log(et);
-					        console.log(st);
+					        var data = $(self).data('smfplayer');
+					        					        
+					        if(currentTime <= et && currentTime>=st)
+					        {
+						        if(data !== undefined)
+						        {
+							        if(data.settings.xywhoverlay === undefined || !data.settings.xywhoverlay.is(':visible'))
+							        {
+								        self.showxywh(xywh);
+							        }
+						        }
+						    }
+					        else
+					        {
+						        if(data.settings.xywhoverlay.is(':visible'))
+						        {
+						        	self.hidexywh();
+						        }
+					        }
 					        
 					        if(settings.mfAlwaysEnabled === true)
 					        {
+					         	
 					         	if(et>0)
 					         	{
 						         	if(currentTime>et)
@@ -245,11 +363,11 @@
 					var mm;
 					if(settings.isVideo === false)
 					{
-			       		mm = $("<audio/>").prop("width",settings.width).prop("height",settings.height).prop('preload','none').appendTo($this);
+			       		mm = $("<audio/>").prop("width",settings.width).prop("height",settings.height).prop('preload','auto').appendTo($this);
 			       	}
 			       	else
 			       	{
-			          	mm = $("<video/>").prop("width",settings.width).prop("height",settings.height).prop('preload','none').appendTo($this);
+			          	mm = $("<video/>").prop("width",settings.width).prop("height",settings.height).prop('preload','auto').appendTo($this);
 			        }
 			        var mmSource = $("<source/>").prop("src",videosrc).appendTo(mm);
 			        
@@ -289,9 +407,6 @@
 							}
 						}
 					} 
-		           
-		           if(VERBOSE)
-		           		console.log(mfjson);
 		           
 		           //TODO: init subtitles
 		           if(settings.subtitles !== undefined)

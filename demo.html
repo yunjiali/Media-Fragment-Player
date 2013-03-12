@@ -13,6 +13,7 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 	<!-- development src-->
+	<link rel="stylesheet" type="text/css" href="src/css/smfplayer.css" />
 	<script type="text/javascript" src="src/jquery/jquery.url.js"></script>
 	<script type="text/javascript" src="src/mediafragments.js"></script>
 	<script type="text/javascript" src="mediaelementjs/mediaelement-and-player.min.js"></script>
@@ -24,7 +25,8 @@
     <script type="text/javascript">
     	$(document).ready(function(){
 	    	//var player = $("#player_div").smfplayer({mfURI:"http://www.youtube.com/watch?v=KkWI-DHLD_M#t=10,20&xywh=160,120,320,240"});
-	    	var player = $("#player_div").smfplayer({mfURI:"http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv#t=12,21&xywh=160,120,320,240"});
+	    	//var player = $("#player_div").smfplayer({mfURI:"http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv#t=12,21&xywh=240,160,160,240"});
+	    	var player = $("#player_div").smfplayer({mfURI:"http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv#t=12,21&xywh=percent:25,25,50,50"});
 	    	$("#pause_btn").click(function(){
 		    	player.pause();
 	    	});
