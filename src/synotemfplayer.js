@@ -4,7 +4,6 @@
 	
 	var self; //save the instance of current smfplayer object
 	var mfreplay=true; //replay the mf whent he video starts, but the mf will only be replayed once
-	var meDom; // the dom object returned by mediaelementjs, this object is different from the new MediaElementPlayer() object 
 	
 	//more options can be found at http://mediaelementjs.com/#api
 	var defaults = {
@@ -60,9 +59,32 @@
 				
 			};
 			
-			this.playmf = function(st,et)//start playing from time st and stop at et, st,et are in miliseconds
+			this.playmf = function()//start playing from time st and stop at et, st,et are in miliseconds
 			{
+				var data = $(this).data('smfplayer');
+				if(data === undefined)
+				{
+					setTimeout(function(){self.playmf()}, 100);
+					return;
+				}
+				var st=0;
+				var et=-1;
+				if(!$.isEmptyObject(data.mfjson.hash))
+				{
+					var tObj = smfplayer.utils.getTemporalMF(data.mfjson.hash.t[0]);
+		           	st = tObj.st;
+		           	et = tObj.et;
+				}
 				
+				var player = $(this).data('smfplayer').smfplayer;
+				//console.log(player);
+				
+				this.setPosition(st*1000);
+				
+				if(player.media.paused)
+					player.play();
+					
+				this.mfreplay = true;
 			};
 			this.showxywh = function(xywh)
 			{
@@ -203,21 +225,20 @@
            	
            	if(!$.isEmptyObject(mfjson.hash)) //currently, only support npt
            	{
-	           	st = mfjson.hash.t[0].start?mfjson.hash.t[0].startNormalized:0;
-	           	et = mfjson.hash.t[0].end?mfjson.hash.t[0].endNormalized:-1; //-1 means no end time is provided
-	           	st = parseFloat(st);//in seconds
-	           	et = parseFloat(et);//in seconds
+	           	var tObj = smfplayer.utils.getTemporalMF(mfjson.hash.t[0]);
+	           	st = tObj.st;
+	           	et = tObj.et;
            	}
            	
            	var xywh = {};
            	if(!$.isEmptyObject(mfjson.hash.xywh))
            		xywh = mfjson.hash.xywh[0];
            	
-	     	settings.success = function(mediaElement,domObject){
+	     	settings.success = function(mediaElement,domObject,p){
 	     			     				
 	     				if(VERBOSE)
 							console.log("smfplayer init success.");
-						meDom = mediaElement;
+						
 				        
 				        if(settings.autoStart === true)
 				        {

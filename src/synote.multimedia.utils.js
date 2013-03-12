@@ -32,5 +32,19 @@ smfplayer.utils={
 	isiPad:function(){
 		var isiPad = (navigator.userAgent.match(/iPad/i) == null)?false:true;
 		return isiPad;
+	},
+	
+	getTemporalMF:function(t)
+	{
+		var st = t.start?t.startNormalized:0;
+       	var et = t.end?t.endNormalized:-1; //-1 means no end time is provided
+       	st = parseFloat(st);//in seconds
+       	et = parseFloat(et);//in seconds
+       	var tObj = {st:st, et:et};
+       	return tObj;
+	},
+	getSpatialMF:function(xywh)
+	{
+		
 	}
 }

@@ -24,14 +24,17 @@
     
     <script type="text/javascript">
     	$(document).ready(function(){
-	    	//var player = $("#player_div").smfplayer({mfURI:"http://www.youtube.com/watch?v=KkWI-DHLD_M#t=10,20&xywh=160,120,320,240"});
+	    	var player = $("#player_div").smfplayer({mfURI:"http://www.youtube.com/watch?v=KkWI-DHLD_M#t=10,20&t=12,21&xywh=160,120,320,240"});
 	    	//var player = $("#player_div").smfplayer({mfURI:"http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv#t=12,21&xywh=240,160,160,240"});
-	    	var player = $("#player_div").smfplayer({mfURI:"http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv#t=12,21&xywh=percent:25,25,50,50"});
+	    	//var player = $("#player_div").smfplayer({mfURI:"http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv#t=12,21&xywh=percent:25,25,50,50"});
 	    	$("#pause_btn").click(function(){
 		    	player.pause();
 	    	});
 	    	$("#play_btn").click(function(){
 		    	player.play();
+	    	});
+	    	$("#mf_btn").click(function(){
+		    	player.playmf();
 	    	});
     	});
     </script>
@@ -83,6 +86,7 @@
 		        	<button class="btn" id="stop_btn">Stop</button>
 		        	<button class="btn" id="forward_btn">Forward</button>
 		        	<button class="btn" id="rewind_btn">Rewind</button>
+		        	<button class="btn" id="mf_btn">Play MF</button>
 	        	</div>
 	      	</div>
         </div>
