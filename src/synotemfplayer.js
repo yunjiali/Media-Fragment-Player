@@ -171,8 +171,6 @@
 				
 				
 			};
-			this.rewind=function(){};
-			this.forward=function(){};
 			this.getPosition=function(){
 				var player = $(this).data('smfplayer').smfplayer;
 				if(player)
@@ -213,17 +211,25 @@
 					console.error("smfplayer hasn't been initalised");
 
 			};
+			
+			this.getMFJson = function()
+			{
+				return $(this).data('smfplayer').mfjson;
+			};
 			/*-----------Public function declaration ends-------------*/
 			
+			/*-----------Public attributes declaration----------------*/
+			//TODO: add mediaelment js attributes
+			/*-----------Public attributes declaration ends----------------*/
            	//parse media fragment
            	var mfjson = MediaFragments.parseMediaFragmentsUri(settings.mfURI);
            	if(VERBOSE)
 		          console.log(mfjson);
            	
            	var st = 0;
-           	var et = -1;
+           	var et = smfplayer.utils.durationMax;
            	
-           	if(!$.isEmptyObject(mfjson.hash)) //currently, only support npt
+           	if(!$.isEmptyObject(mfjson.hash.t)) //currently, only support npt
            	{
 	           	var tObj = smfplayer.utils.getTemporalMF(mfjson.hash.t[0]);
 	           	st = tObj.st;
@@ -245,7 +251,8 @@
 					        if(mediaElement.pluginType == 'flash')
 					        {
 						        mediaElement.addEventListener('canplay',function(e){
-						        	console.log("canplay");
+						        	if(VERBOSE)
+						        		console.log("canplay");
 						        	mediaElement.play();
 						        	if(st >0)
 						        	{
@@ -289,6 +296,11 @@
 						
 					        var currentTime = mediaElement.currentTime;
 					        var data = $(self).data('smfplayer');
+					        
+					        if(data === undefined)
+					        {
+						        return;
+					        }
 					        					        
 					        if(currentTime <= et && currentTime>=st)
 					        {
@@ -302,7 +314,7 @@
 						    }
 					        else
 					        {
-						        if(data.settings.xywhoverlay.is(':visible'))
+						        if(data.settings.xywhoverlay !== undefined && data.settings.xywhoverlay.is(':visible'))
 						        {
 						        	self.hidexywh();
 						        }
@@ -362,14 +374,22 @@
 			     }
 		         else
 		        		return;	
-	     	}	     		     			     	
+	     	}; 
+	     	//console.log("before each");  
+	     	//console.log(this);		     			     	
 	     	return this.each(function(){
          
 		     	var $this = $(this);
 				var data = $this.data('smfplayer');
+				
+				//console.log("each");
+				//console.log(data);
                      
 		     	// If the plugin hasn't been initialized yet
-		     	if ( ! data ) {
+		     	if ( data === undefined ) {
+		     	
+			     	if(VERBOSE)
+			     		console.log("init smfplayer data");
   
 		           	var videosrc = settings.mfURI;
 		           	//remove the hash for the url
@@ -400,6 +420,10 @@
 					else if(smfplayer.utils.isDailyMotionURL(settings.mfURI))
 					{
 						mmSource.prop("type","video/dailymotion");
+					}
+					else if(smfplayer.utils.isVimeoURL(settings.mfURI))
+					{
+						mmSource.prop("type","video/vimeo");
 					}
 					else
 					{
@@ -455,11 +479,13 @@
 	             data = $this.data('smfplayer');
 	
 	         // Namespacing FTW
+	         //if(data!==undefined)
+	         //	data.smfplayer.remove();
+	         
 	         $(window).unbind('.smfplayer');
-	         data.smfplayer.remove();
 	         $this.removeData('smfplayer');
-	
-	       })
+	         $this.empty();
+	       });
 	
 	    }
   };

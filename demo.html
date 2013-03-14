@@ -8,10 +8,13 @@
 	<meta name="author" content="Yunjia Li"/>
 	<meta name="description" content="Synote Media Fragment Player home page" />
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/renderjson.css" />
 	<link rel="stylesheet" type="text/css" href="css/main.css" />
 	<link rel="stylesheet" type="text/css" href="mediaelementjs/mediaelementplayer.min.css" />
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/jquery.renderjson.js"></script>
+	<script type="text/javascript" src="js/jquery.form.js"></script>
 	<!-- development src-->
 	<link rel="stylesheet" type="text/css" href="src/css/smfplayer.css" />
 	<script type="text/javascript" src="src/jquery/jquery.url.js"></script>
@@ -24,18 +27,63 @@
     
     <script type="text/javascript">
     	$(document).ready(function(){
-	    	var player = $("#player_div").smfplayer({mfURI:"http://www.youtube.com/watch?v=KkWI-DHLD_M#t=10,20&t=12,21&xywh=160,120,320,240"});
+	    	//var player = $("#player_div").smfplayer({mfURI:"http://www.youtube.com/watch?v=KkWI-DHLD_M#t=10,20&t=12,21&xywh=160,120,320,240"});
 	    	//var player = $("#player_div").smfplayer({mfURI:"http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv#t=12,21&xywh=240,160,160,240"});
 	    	//var player = $("#player_div").smfplayer({mfURI:"http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv#t=12,21&xywh=percent:25,25,50,50"});
-	    	$("#pause_btn").click(function(){
-		    	player.pause();
+	    	//var player = $("#player_div").smfplayer({mfURI:"http://www.dailymotion.com/video/xuvyrp_us-election-2012-latest_news#t=00:00:59,00:01:11&xywh=percent:25,25,30,60"});
+	    	//var player = $("#player_div").smfplayer({mfURI:"http://vimeo.com/1084537#t=00:02:10,00:02:17&xywh=percent:60,25,20,30"});
+	    	
+	    	$("#submit_btn").click(function(){
+	    	
+	    		if($("#player_div").data('smfplayer') !== undefined)
+	    			$("#player_div").smfplayer('destroy');
+	    		
+		    	var mfuri = $("#mfuri").val();
+		    	var player = $("#player_div").smfplayer({
+		    		mfURI:mfuri, 
+		    		success:function(mediaElement,domObject,p){
+			    		mediaElement.addEventListener('timeupdate', function(e){
+				    		var ct = mediaElement.currentTime;
+				    		$("#currenttime_span").text(ct);
+			    		});
+		    		}
+		    	});
+		    	
+		    	console.log("after init player");
+		    	
+		    	if(player !== undefined)
+			    {
+			    	$("#controls_div").show();
+			    	$("#mfjson_div").empty();
+			    	$("#mfjson_div").renderJSON(player.getMFJson());
+	
+			    	$("#pause_btn").click(function(){
+				    	player.pause();
+			    	});
+			    	$("#play_btn").click(function(){
+				    	player.play();
+			    	});
+			    	$("#mf_btn").click(function(){
+				    	player.playmf();
+			    	});
+			    }
 	    	});
-	    	$("#play_btn").click(function(){
-		    	player.play();
+	    	
+	    	$("#url_file_btn").click(function(){
+		    	$("#mfuri").val($("#url_file_code").text());
+		    	$("#submit_btn").trigger('click');
 	    	});
-	    	$("#mf_btn").click(function(){
-		    	player.playmf();
+	    	
+	    	$("#url_yt_btn").click(function(){
+		    	$("#mfuri").val($("#url_yt_code").text());
+		    	$("#submit_btn").trigger('click');
 	    	});
+	    	
+	    	$("#url_dm_btn").click(function(){
+		    	$("#mfuri").val($("#url_dm_code").text());
+		    	$("#submit_btn").trigger('click');
+	    	});
+	    	
     	});
     </script>
     
@@ -50,45 +98,56 @@
 	            <div class="container">
 	              <ul class="nav">
 	                <li><a href="#">Home</a></li>
-	                <li><a href="#">Test Cases</a></li>
-	                <li class="active"><a href="#">Demo</a></li>
-	                <li><a href="#">About</a></li>
+	                <li><a href="tc.html">Test Cases</a></li>
+	                <li class="active"><a href="demo.html">Demo</a></li>
+	                <li><a href="about.html">About</a></li>
 	              </ul>
 	            </div>
 	          </div>
 	        </div><!-- /.navbar -->
         </div>
         <div class="row-fluid">
-        	<h4>Demo Page</h4>
+        	<h4>Demo</h4>
 	        <div class="span12">
-	        	<form class="form-stacked" action="demo.html">
-	          		<fieldset>
-	          			<div class="clearfix">
-	          				<label for="mfuri">Please enter Media Fragment URI</label>
-	          				<div class="input">
-	          					<input id="mfuri" class="xlarge span8" type="text" name="mfuri" />
-	          				</div>
-	          			</div>
-	          			<input class="btn primary" type="submit" value="Play"></input>
-						<input class="btn" type="reset" value="Reset"></input>
-	          		</fieldset>		
-	          	</form>
+	        	<div>Try the following Media Fragment URIs</div>
+	        	<ul>
+	        		<li>Video file online: <br/><code id="url_file_code">http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv#t=12,21&xywh=240,160,160,240</code><button class="btn btn-info btn-mini" id="url_file_btn">Go</button>
+	        		</li>
+	        		<li>YouTube video: <br/><code id="url_yt_code">http://www.youtube.com/watch?v=KkWI-DHLD_M#t=10,20&t=25,33&xywh=360,120,160,320</code>
+	        			<button id="url_yt_btn" class="btn btn-info btn-mini">Go</button>
+	        		</li>
+	        		<li>Dailymotion video: <br/><code id="url_dm_code">http://www.dailymotion.com/video/xuvyrp_us-election-2012-latest_news#t=00:00:59,00:01:11&xywh=percent:40,10,40,60</code><button id="url_dm_btn"class="btn btn-info btn-mini">Go</button>
+	        		</li>
+	        	</ul>
+      			<div class="clearfix">
+      				<span>Or enter a Media Fragment URI yourself</span>
+      				<div class="input">
+      					<input id="mfuri" class="xlarge span8" type="text" name="mfuri" />
+      					<br/><button id="submit_btn" class="btn btn-success"><i class="icon-play icon-white"></i>Play</button>
+      				</div>
+      			</div>
 	        </div>
         </div>
+        <br/>
         <div class="row-fluid">
-	        <div class="span12">
+	        <div class="span6">
 	        	<div id="player_div">
 		        	
 	        	</div>
-	        	<div id="controls_div">
+	        	<div id="controls_div" style="display:none;">
 		        	<button class="btn" id="play_btn">Play</button>
 		        	<button class="btn" id="pause_btn">Pause</button>
 		        	<button class="btn" id="stop_btn">Stop</button>
-		        	<button class="btn" id="forward_btn">Forward</button>
-		        	<button class="btn" id="rewind_btn">Rewind</button>
 		        	<button class="btn" id="mf_btn">Play MF</button>
+		        	<div style="display:inline;">CurrentTime:<span id="currenttime_span"></span></div>
 	        	</div>
 	      	</div>
+        </div>
+        <div class="row-fluid">
+	        <div class="span12">
+	      		<h5>Media Fragment Info</h5>
+	      		<div id='mfjson_div'></div>
+		    </div>
         </div>
         <hr/>
         <div class="footer">
