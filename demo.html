@@ -10,33 +10,37 @@
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="css/renderjson.css" />
 	<link rel="stylesheet" type="text/css" href="css/main.css" />
-	<link rel="stylesheet" type="text/css" href="mediaelementjs/mediaelementplayer.min.css" />
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/jquery.renderjson.js"></script>
-	<script type="text/javascript" src="js/jquery.form.js"></script>
 	<!-- development src-->
+	<!--
+	<link rel="stylesheet" type="text/css" href="mediaelementjs/mediaelementplayer.min.css" />
 	<link rel="stylesheet" type="text/css" href="src/css/smfplayer.css" />
-	<script type="text/javascript" src="src/jquery/jquery.url.js"></script>
+	<script type="text/javascript" src="src/jquery.url.js"></script>
 	<script type="text/javascript" src="src/mediafragments.js"></script>
 	<script type="text/javascript" src="mediaelementjs/mediaelement-and-player.min.js"></script>
 	<script type="text/javascript" src="src/synote.multimedia.namespace.js"></script>
 	<script type="text/javascript" src="src/synote.multimedia.utils.js"></script>
-	<script type="text/javascript" src="src/synotemfplayer.js"></script>
+	<script type="text/javascript" src="src/synotemfplayer.js"></script>-->
+	
+	<!-- product src -->
+	<link rel="stylesheet" type="text/css" href="build/mediaelementplayer.min.css" />
+	<link rel="stylesheet" type="text/css" href="build/smfplayer.css" />
+	<script type="text/javascript" src="build/mediaelement-and-player.min.js"></script>
+	<script type="text/javascript" src="build/smfplayer.min.js"></script>
+
 	<title>Synote Media Fragment Player Demo</title>
     
     <script type="text/javascript">
-    	$(document).ready(function(){
-	    	//var player = $("#player_div").smfplayer({mfURI:"http://www.youtube.com/watch?v=KkWI-DHLD_M#t=10,20&t=12,21&xywh=160,120,320,240"});
-	    	//var player = $("#player_div").smfplayer({mfURI:"http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv#t=12,21&xywh=240,160,160,240"});
-	    	//var player = $("#player_div").smfplayer({mfURI:"http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv#t=12,21&xywh=percent:25,25,50,50"});
-	    	//var player = $("#player_div").smfplayer({mfURI:"http://www.dailymotion.com/video/xuvyrp_us-election-2012-latest_news#t=00:00:59,00:01:11&xywh=percent:25,25,30,60"});
-	    	//var player = $("#player_div").smfplayer({mfURI:"http://vimeo.com/1084537#t=00:02:10,00:02:17&xywh=percent:60,25,20,30"});
-	    	
+    	$(document).ready(function(){	    	
 	    	$("#submit_btn").click(function(){
 	    	
 	    		if($("#player_div").data('smfplayer') !== undefined)
+	    		{
+	    			console.log('destroy');
 	    			$("#player_div").smfplayer('destroy');
+	    		}
 	    		
 		    	var mfuri = $("#mfuri").val();
 		    	var player = $("#player_div").smfplayer({
@@ -49,7 +53,6 @@
 		    		}
 		    	});
 		    	
-		    	console.log("after init player");
 		    	
 		    	if(player !== undefined)
 			    {
@@ -69,8 +72,13 @@
 			    }
 	    	});
 	    	
-	    	$("#url_file_btn").click(function(){
-		    	$("#mfuri").val($("#url_file_code").text());
+	    	$("#url_ogv_btn").click(function(){
+		    	$("#mfuri").val($("#url_ogv_code").text());
+		    	$("#submit_btn").trigger('click');
+	    	});
+	    	
+	    	$("#url_wmv_btn").click(function(){
+		    	$("#mfuri").val($("#url_wmv_code").text());
 		    	$("#submit_btn").trigger('click');
 	    	});
 	    	
@@ -109,9 +117,12 @@
         <div class="row-fluid">
         	<h4>Demo</h4>
 	        <div class="span12">
-	        	<div>Try the following Media Fragment URIs</div>
+	        	<div>Try the following Media Fragment URIs:</div>
 	        	<ul>
-	        		<li>Video file online: <br/><code id="url_file_code">http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv#t=12,21&xywh=240,160,160,240</code><button class="btn btn-info btn-mini" id="url_file_btn">Go</button>
+	        		<li>Ogv file online: <br/><code id="url_ogv_code">http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv#t=12,21&xywh=240,160,160,240</code><button class="btn btn-info btn-mini" id="url_ogv_btn">Go</button>
+	        		</li>
+	        		<li>Wmv file online: <br/><code id="url_wmv_code">http://archive.org/download/WorkToFishtestwmv/test_wmv.wmv#xywh=180,180,180,180</code><button class="btn btn-info btn-mini" id="url_wmv_btn">Go</button><br/>
+	        		<span class="label label-warning">Warning: You need to install <a href="http://www.microsoft.com/silverlight/" target="_blank">Silverlight.</a> to play wmv</span>
 	        		</li>
 	        		<li>YouTube video: <br/><code id="url_yt_code">http://www.youtube.com/watch?v=KkWI-DHLD_M#t=10,20&t=25,33&xywh=360,120,160,320</code>
 	        			<button id="url_yt_btn" class="btn btn-info btn-mini">Go</button>
@@ -120,7 +131,7 @@
 	        		</li>
 	        	</ul>
       			<div class="clearfix">
-      				<span>Or enter a Media Fragment URI yourself</span>
+      				<span>Or enter a Media Fragment URI yourself:</span>
       				<div class="input">
       					<input id="mfuri" class="xlarge span8" type="text" name="mfuri" />
       					<br/><button id="submit_btn" class="btn btn-success"><i class="icon-play icon-white"></i>Play</button>

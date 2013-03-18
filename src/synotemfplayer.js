@@ -1,6 +1,6 @@
 (function($){
 	
-	var VERBOSE=true;
+	var VERBOSE=false;
 	
 	var self; //save the instance of current smfplayer object
 	var mfreplay=true; //replay the mf whent he video starts, but the mf will only be replayed once
@@ -15,7 +15,7 @@
 			mfAlwaysEnabled:false, //the media fragment is always enabled, i.e. you can only play the media fragment
 			spatialEnabled:true, //spatial dimension of the media fragment is enabled
 			spatialStyle:{}, //a json object to specify the style of the outline of the spatial area
-			autoStart:true, //auto start playing after initialising the player
+			autoStart:true //auto start playing after initialising the player
 			//xywhoverlay: jquery object of a div to identify xywh area
 			//subtitles: a JSON object, lang is the key and the uri of the subtitle is the value, the first pair is the default subtitle
 	};
@@ -53,13 +53,13 @@
 				
 				var player = $(this).data('smfplayer').smfplayer;
 				if(player !== undefined)
-					$(this).data('smfplayer').smfplayer.play();
+					player.play();
 				else
 					console.error("smfplayer hasn't been initalised");
 				
 			};
 			
-			this.playmf = function()//start playing from time st and stop at et, st,et are in miliseconds
+			this.playmf = function()
 			{
 				var data = $(this).data('smfplayer');
 				if(data === undefined)
@@ -102,42 +102,47 @@
 					return;
 				}
 				
+				if( $.isEmptyObject(xywh) || data.settings.spatialEnabled !== true)
+					return;
+				
+				var spatial_div;
 				if(data.settings.xywhoverlay === undefined) //the overlay hasn't been created
 				{			
-					if(!$.isEmptyObject(xywh) && data.settings.spatialEnabled === true)
-		           	{
-			           	this.addClass('smfplayer-container');
-			           	var unit = xywh.unit;
-			           		x = xywh.x,
-			           		y = xywh.y,
-			           		w = xywh.w,
-			           		h = xywh.h;
-			           	
-			           	//unit is 'pixal' or 'percent'	
-			           	if(unit === 'percent')
-			           	{
-				           	//var wratio = data.settings.width/data.settings.originalWidth;
-				           	//var hratio = data.settings.height/data.settings.originalHeight;
-				           	
-				           	x=Math.floor((x/100)*data.settings.width);
-				           	w=Math.floor((w/100)*data.settings.width);
-				           	y=Math.floor((y/100)*data.settings.height);
-				           	h=Math.floor((h/100)*data.settings.height);
-			           	}
-			           	//var cssStr = "top:"+x+";left:"+y+";width:"+w+";height:"+h+";";
-			           	var spatial_div = $("<div/>");
-			           	spatial_div.css(data.settings.spatialStyle).css({'width':w,'height':h,'top':y+'px','left':x+'px'});
-			           	spatial_div.addClass('smfplayer-overlay').appendTo(this);
-		
-			           	spatial_div.show();
-			           	data.settings.xywhoverlay =  spatial_div;
-			        }
+		           	this.addClass('smfplayer-container');
+		           	//var cssStr = "top:"+x+";left:"+y+";width:"+w+";height:"+h+";";
+		           	spatial_div = $("<div/>");
+		           	spatial_div.css(data.settings.spatialStyle);
+		           	spatial_div.addClass('smfplayer-overlay').appendTo(this);
+	
+		           	data.settings.xywhoverlay =  spatial_div;
 			    }
 			    else
 			    {
-				    var spatial_div = data.settings.xywhoverlay;
-				    spatial_div.show();
+				    spatial_div = data.settings.xywhoverlay;
 			    }
+			    
+			    console.log(xywh);
+			    
+		    	var unit = xywh.unit;
+		           		x = xywh.x,
+		           		y = xywh.y,
+		           		w = xywh.w,
+		           		h = xywh.h;
+		           	
+	           	//unit is 'pixal' or 'percent'	
+	           	if(unit === 'percent')
+	           	{
+		           	//var wratio = data.settings.width/data.settings.originalWidth;
+		           	//var hratio = data.settings.height/data.settings.originalHeight;
+		           	
+		           	x=Math.floor((x/100)*data.settings.width);
+		           	w=Math.floor((w/100)*data.settings.width);
+		           	y=Math.floor((y/100)*data.settings.height);
+		           	h=Math.floor((h/100)*data.settings.height);
+	           	}
+	           	
+	           	spatial_div.css({'width':w,'height':h,'top':y+'px','left':x+'px'});
+	           	spatial_div.show();
 			};
 			
 			this.hidexywh = function()
@@ -165,12 +170,27 @@
 				
 				var player = $(this).data('smfplayer').smfplayer;
 				if(player !== undefined)
-					$(this).data('smfplayer').smfplayer.stop();
+					player.stop();
 				else
 					console.error("smfplayer hasn't been initalised");
 				
 				
 			};
+			
+			this.load =function(){
+				
+				if(VERBOSE)
+					console.log("load");
+				
+				var player = $(this).data('smfplayer').smfplayer;
+				if(player !== undefined)
+					player.load();
+				else
+					console.error("smfplayer hasn't been initalised");
+				
+				
+			};
+			
 			this.getPosition=function(){
 				var player = $(this).data('smfplayer').smfplayer;
 				if(player)
@@ -206,9 +226,12 @@
 			this.getDuration=function(){ //in milliseconds
 				var player = $(this).data('smfplayer').smfplayer;
 				if(player !== undefined)
-					player.duration*1000;
+					return player.duration*1000;
 				else
+				{
 					console.error("smfplayer hasn't been initalised");
+					return -1;
+				}
 
 			};
 			
@@ -216,29 +239,18 @@
 			{
 				return $(this).data('smfplayer').mfjson;
 			};
-			/*-----------Public function declaration ends-------------*/
 			
-			/*-----------Public attributes declaration----------------*/
-			//TODO: add mediaelment js attributes
+			//get the original mejs player
+			this.getMeplayer = function()
+			{
+				return $(this).data('smfplayer').smfplayer;
+			}
+			
 			/*-----------Public attributes declaration ends----------------*/
            	//parse media fragment
            	var mfjson = MediaFragments.parseMediaFragmentsUri(settings.mfURI);
-           	if(VERBOSE)
-		          console.log(mfjson);
-           	
-           	var st = 0;
-           	var et = smfplayer.utils.durationMax;
-           	
-           	if(!$.isEmptyObject(mfjson.hash.t)) //currently, only support npt
-           	{
-	           	var tObj = smfplayer.utils.getTemporalMF(mfjson.hash.t[0]);
-	           	st = tObj.st;
-	           	et = tObj.et;
-           	}
-           	
-           	var xywh = {};
-           	if(!$.isEmptyObject(mfjson.hash.xywh))
-           		xywh = mfjson.hash.xywh[0];
+           	//if(VERBOSE)
+		    //      console.log(mfjson);
            	
 	     	settings.success = function(mediaElement,domObject,p){
 	     			     				
@@ -254,41 +266,43 @@
 						        	if(VERBOSE)
 						        		console.log("canplay");
 						        	mediaElement.play();
-						        	if(st >0)
-						        	{
-							        	//self.smfplayer('setPosition',{st:st} );	
-							        	if($(self).data('smfplayer') === undefined)	
-							        		setTimeout(function(){
-									        		self.setPosition(st*1000);
-									        	},100);
-								        else
-								        {
-								        	self.setPosition(st*1000);
-								        	self.showxywh(xywh);	
-								        }
-						        	}
+						        		
+						        	if($(self).data('smfplayer') === undefined)	
+						        		setTimeout(function(){
+								        		var lazyObj = getMfjsonLazy($(self).data('smfplayer').mfjson);
+								        		self.setPosition(lazyObj.st*1000);
+									        	if( !$.isEmptyObject(lazyObj.xywh) && $(self).data('smfplayer').settings.spatialEnabled === true)
+									        		self.showxywh(lazyObj.xywh);
+								        	},100);
+							        else
+							        {
+							        	var lazyObj = getMfjsonLazy($(self).data('smfplayer').mfjson);
+						        		self.setPosition(lazyObj.st*1000);
+							        	if( !$.isEmptyObject(lazyObj.xywh) && $(self).data('smfplayer').settings.spatialEnabled === true)
+							        		self.showxywh(lazyObj.xywh);	
+							        }
 						        		
 						        },false);
 					        }
 					        else
 					        {
 					        	mediaElement.play();
-					        	if(st>0)
-					        	{
-						        	//methods.setPosition.call(self,st);
-						        	//
-						        	//console.log('st:'+st);
-						        	if($(self).data('smfplayer') === undefined)	
-							        	setTimeout(function(){
-								        	self.setPosition(st*1000);
-							        	},100);
-							        else
-							        {
-							        	self.setPosition(st*1000);	
-							        	self.showxywh(xywh);
-							        }
-							        //self.find('.smfplayer-overlay').show();
-					        	}
+					        	
+					        	if($(self).data('smfplayer') === undefined)	
+						        	setTimeout(function(){
+							        	var lazyObj = getMfjsonLazy($(self).data('smfplayer').mfjson);
+						        		self.setPosition(lazyObj.st*1000);
+							        	if( !$.isEmptyObject(lazyObj.xywh) && $(self).data('smfplayer').settings.spatialEnabled === true)
+							        		self.showxywh(lazyObj.xywh);
+						        	},100);
+						        else
+						        {
+						        	var lazyObj = getMfjsonLazy($(self).data('smfplayer').mfjson);
+					        		self.setPosition(lazyObj.st*1000);
+						        	if( !$.isEmptyObject(lazyObj.xywh) && $(self).data('smfplayer').settings.spatialEnabled === true)
+						        		self.showxywh(lazyObj.xywh);
+						        }
+							       
 					        }
 				        }
 				        
@@ -301,15 +315,23 @@
 					        {
 						        return;
 					        }
+					        
+					        var lazyObj = getMfjsonLazy(data.mfjson);
+					        var st = lazyObj.st;
+					        var et = lazyObj.et;
+					        var xywh = lazyObj.xywh;
 					        					        
 					        if(currentTime <= et && currentTime>=st)
 					        {
 						        if(data !== undefined)
 						        {
-							        if(data.settings.xywhoverlay === undefined || !data.settings.xywhoverlay.is(':visible'))
+							        if( !$.isEmptyObject(xywh) && data.settings.spatialEnabled === true)
 							        {
-								        self.showxywh(xywh);
-							        }
+							        	if(data.settings.xywhoverlay === undefined || !data.settings.xywhoverlay.is(':visible'))
+							        	{
+								        	self.showxywh(xywh);
+								        }
+								    }
 						        }
 						    }
 					        else
@@ -437,11 +459,11 @@
 							var file_extension = parts[parts.length-1].toLowerCase();
 							if(file_extension)
 							{
-								if($.inArray(file_extension,this.video_list)!=-1)
+								if($.inArray(file_extension,smfplayer.utils.videoList)!=-1)
 								{
-									mmSource.prop("type","video/"+file_extension);
+									mmSource.attr("type","video/"+file_extension);
 								}
-								else if($.inArray(file_extension,this.audio_list)!=-1)
+								else if($.inArray(file_extension,smfplayer.utils.audioList)!=-1)
 								{
 									mmSource.prop("type","audio/"+file_extension);
 								}
@@ -488,6 +510,25 @@
 	       });
 	
 	    }
+  };
+  
+  var getMfjsonLazy=function(mfjson)
+  {
+	  	var st = 0;
+	   	var et = smfplayer.utils.durationMax;
+	   	
+	   	if(!$.isEmptyObject(mfjson.hash.t)) //currently, only support npt
+	   	{
+	       	var tObj = smfplayer.utils.getTemporalMF(mfjson.hash.t[0]);
+	       	st = tObj.st;
+	       	et = tObj.et;
+	   	}
+	   	
+	   	var xywh = {};
+	   	if(!$.isEmptyObject(mfjson.hash.xywh))
+	   		xywh = mfjson.hash.xywh[0];
+	   	
+	   	return {st:st,et:et,xywh:xywh}
   };
   
   var initSubtitles=function(mm,sobj)

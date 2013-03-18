@@ -125,7 +125,7 @@ var MediaFragments = (function(window) {
               start: start,
               end: end,
               startNormalized: startNormalized === false ? '' : startNormalized,
-              endNormalized: endNormalized === false ? '' : endNormalized,
+              endNormalized: endNormalized === false ? '' : endNormalized
             };
           } else {
             logWarning('Please ensure that start or end are legal.');                                                      
