@@ -121,7 +121,7 @@
 				    spatial_div = data.settings.xywhoverlay;
 			    }
 			    
-			    console.log(xywh);
+			    //console.log(xywh);
 			    
 		    	var unit = xywh.unit;
 		           		x = xywh.x,
@@ -219,7 +219,7 @@
 						player.setCurrentTime(position/1000);
 				}
 				else
-					console.log("smfplayer hasn't been initalised");
+					console.error("smfplayer hasn't been initalised");
 				
 				
 			}; //in miliseconds
@@ -367,10 +367,13 @@
 						         	}
 					         	}   
 					        }
-					        else if(mfreplay === true && et>0)
+					        else if(mfreplay === true)
 					        {
-					            
-					            if(currentTime>et)
+					            if(currentTime < st)
+					            {
+						            self.setPosition(st*1000);
+					            }
+					            else if(currentTime>et)
 					            {
 						            mediaElement.pause();
 						            mfreplay = false;

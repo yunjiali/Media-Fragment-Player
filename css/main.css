@@ -1,6 +1,7 @@
  body {
         padding-top: 20px;
         padding-bottom: 60px;
+        background-color: #f5f5f5;
       }
 
   /* Custom container */
@@ -66,4 +67,42 @@
   .navbar .nav li:last-child a {
     border-right: 0;
     border-radius: 0 3px 3px 0;
+  }
+  
+  .features li
+  {
+ 	 list-style:none;
+ 	 
+ 	 background: transparent url('../images/tick.png') no-repeat 10px -2px;
+ 	 padding: 2px 40px 4px !important;
+  }
+  
+  .h-icon-multimedia
+  {
+	  min-height:32px;
+	  background: transparent url('../images/multimedia.png') no-repeat;
+	  padding: 5px 40px 0;
+  }
+  
+  .h-icon-preferences
+  {
+	  min-height:32px;
+	  background: transparent url('../images/preferences.png') no-repeat;
+	  padding: 5px 40px 0;
+  }
+  
+  .inline{
+	  display:inline;
+  }
+  .number {
+	width: 30px;
+	height: 30px;
+	background: #7FA3C1;
+	display: block;
+	color: #fff;
+	text-align: center;
+	text-shadow: #333 2px 2px 2px inset;
+	line-height: 30px;
+	font-size: 17px;
+	margin: 0 0 0 20px;
   }
