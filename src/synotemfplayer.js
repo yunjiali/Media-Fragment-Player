@@ -7,10 +7,10 @@
 	
 	//more options can be found at http://mediaelementjs.com/#api
 	var defaults = {
-			width:640, //the width in pixal of the video on the webpage, no matter if it's audio or video
-			height:480, //the height in pixal of the video on the webpage, no matter if it's audio or video
-			originalWidth:320, //the original width in pixal of the video, used for spatial fragment 
-			originalHeight:240, //the original height in pixal of the video, used for spatial fragment
+			width:640, //the width in pixel of the video on the webpage, no matter if it's audio or video
+			height:480, //the height in pixel of the video on the webpage, no matter if it's audio or video
+			originalWidth:320, //the original width in pixel of the video, used for spatial fragment 
+			originalHeight:240, //the original height in pixel of the video, used for spatial fragment
 			isVideo:true, //is the URI indicating a video or audio
 			mfAlwaysEnabled:false, //the media fragment is always enabled, i.e. you can only play the media fragment
 			spatialEnabled:true, //spatial dimension of the media fragment is enabled
