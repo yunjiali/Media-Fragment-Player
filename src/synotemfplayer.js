@@ -321,8 +321,9 @@
 					        var st = lazyObj.st;
 					        var et = lazyObj.et;
 					        var xywh = lazyObj.xywh;
-					        					        
-					        if(currentTime <= et && currentTime>=st)
+					        
+					        //console.log("ct:"+currentTime);			        
+					        if(currentTime < et && currentTime>st)
 					        {
 						        if(data !== undefined)
 						        {
@@ -336,7 +337,7 @@
 						        }
 						        if(setPositionLock === true)
 						        {
-						        	console.log("true");
+						        	//console.log("true:"+currentTime);  	
 						        	setPositionLock = false;
 						        }
 						    }
@@ -346,29 +347,29 @@
 						        {
 						        	self.hidexywh();
 						        }
-					        }
-					        
-					        if(mfreplay === true || settings.mfAlwaysEnabled === true)
-					        {
-					           
-					            if(currentTime>et)
-					            {
-						            mediaElement.pause();
-						            self.setPosition(et*1000);
-						            mfreplay = false;
-					            }
-					            else if(currentTime < st)
-					            {
-						            if(setPositionLock === false)
+						        
+						        if(mfreplay === true || settings.mfAlwaysEnabled === true)
+						        {
+						           
+						            if(currentTime>et)
 						            {
-						            	self.setPosition(st*1000);
-						            	setPositionLock = true;
+							            mediaElement.pause();
+							            self.setPosition(et*1000);
+							            mfreplay = false;
 						            }
-					            }
+						            else if(currentTime < st)
+						            {
+							            if(setPositionLock === false)
+							            {
+							            	//console.log("false:"+currentTime);
+							            	self.setPosition(st*1000);
+							            	setPositionLock = true;
+							            }
+						            }
+						        }
 					        }
 			        				             
 					    }, false);
-				        
 				        
 				        mediaElement.addEventListener('play', function(e) {
 					        
