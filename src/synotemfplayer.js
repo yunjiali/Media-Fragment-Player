@@ -4,7 +4,7 @@
 	
 	var self; //save the instance of current smfplayer object
 	var mfreplay=true; //replay the mf when the video starts, but the mf will only be replayed once
-	var autoStarted=false;
+	var setPositionLock=false; //sometimes the setPostion(position) will set a currentTime that around the actual 'position'. If this happens, the timeupdate event should not trigger setPosition again when the position > currentTime
 	
 	//more options can be found at http://mediaelementjs.com/#api
 	var defaults = {
@@ -334,6 +334,11 @@
 								        }
 								    }
 						        }
+						        if(setPositionLock === true)
+						        {
+						        	console.log("true");
+						        	setPositionLock = false;
+						        }
 						    }
 					        else
 					        {
@@ -343,33 +348,27 @@
 						        }
 					        }
 					        
-					        if(settings.mfAlwaysEnabled === true)
+					        if(mfreplay === true || settings.mfAlwaysEnabled === true)
 					        {
-					         	
-					         	if(et>0)
-					         	{
-						         	if(currentTime>et)
-						         	{
-						         		self.setPosition(et*1000);
-						         		mediaElement.pause();
-						         	}
-						         	else if(currentTime<st)
-						         	{
-							         	self.setPosition(st*1000)
-							         	mediaElement.play();
-						         	}
-					         	}
-					         	else //from the st to the very end of the video
-					         	{
-						         	if(currentTime<st)
-						         	{
-							         	self.setPosition(st*1000);
-							         	mediaElement.play();
-						         	}
-					         	}   
+					           
+					            if(currentTime>et)
+					            {
+						            mediaElement.pause();
+						            self.setPosition(et*1000);
+						            mfreplay = false;
+					            }
+					            else if(currentTime < st)
+					            {
+						            if(setPositionLock === false)
+						            {
+						            	self.setPosition(st*1000);
+						            	setPositionLock = true;
+						            }
+					            }
 					        }
 			        				             
 					    }, false);
+				        
 				        
 				        mediaElement.addEventListener('play', function(e) {
 					        
@@ -391,12 +390,21 @@
 					            if(currentTime < st)
 					            {
 						            //console.log("setposition");
-						            self.setPosition(st*1000);
+						            if(setPositionLock === false)
+						            {
+						            	self.setPosition(st*1000);
+						            	setPositionLock = true;
+						            }
 					            }
 					            else if(currentTime>et)
 					            {
-						            mediaElement.pause();
-						            mfreplay = false;
+						            if(setPositionLock === false)
+						            {
+						            	self.setPosition(et*1000);
+						            	setPositionLock = true;
+						            	mediaElement.pause();
+						            	mfreplay = false;
+						            }
 					            }
 					        }
 					        

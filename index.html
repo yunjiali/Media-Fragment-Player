@@ -42,6 +42,7 @@
 		    	var mfuri = "http://synote.org/resource/yunjiali/bigbuck.mp4#t=11,19&xywh=120,120,120,120";
 		    	var player = $("#player_div").smfplayer({
 		    		mfURI:mfuri, 
+		    		mfAlwaysEnabled:false,
 		    		autoStart:false,
 		    		success:function(mediaElement,domObject,p){
 			    		mediaElement.addEventListener('timeupdate', function(e){
