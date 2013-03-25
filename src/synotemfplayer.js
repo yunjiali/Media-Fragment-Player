@@ -3,7 +3,8 @@
 	var VERBOSE=false;
 	
 	var self; //save the instance of current smfplayer object
-	var mfreplay=true; //replay the mf whent he video starts, but the mf will only be replayed once
+	var mfreplay=true; //replay the mf when the video starts, but the mf will only be replayed once
+	var autoStarted=false;
 	
 	//more options can be found at http://mediaelementjs.com/#api
 	var defaults = {
@@ -367,10 +368,29 @@
 						         	}
 					         	}   
 					        }
-					        else if(mfreplay === true)
+			        				             
+					    }, false);
+				        
+				        mediaElement.addEventListener('play', function(e) {
+					        
+					        var currentTime = mediaElement.currentTime;
+					        var data = $(self).data('smfplayer');
+					        
+					        if(data === undefined)
 					        {
+						        return;
+					        }
+					        
+					        var lazyObj = getMfjsonLazy(data.mfjson);
+					        var st = lazyObj.st;
+					        var et = lazyObj.et;
+					     						        
+					        if(mfreplay === true)
+					        {
+					            //console.log("mfreplay:"+currentTime); //add a flag as autostart finished
 					            if(currentTime < st)
 					            {
+						            //console.log("setposition");
 						            self.setPosition(st*1000);
 					            }
 					            else if(currentTime>et)
@@ -379,9 +399,9 @@
 						            mfreplay = false;
 					            }
 					        }
-			        				             
-					    }, false);
-				        
+					        
+				        },false);
+
 				        
 				        if(options.success !== undefined)
 				        {
