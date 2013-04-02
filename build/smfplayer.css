@@ -1,0 +1,16 @@
+.smfplayer-container { position:relative; }
+.smfplayer-container video {
+    position:relative;
+    z-index:0;
+}
+.smfplayer-overlay {
+    position:absolute;
+    display:none; /*Do not display the overlay at the beginning*/
+    z-index:1;
+    
+	padding: 4px;
+	border: solid 2px yellow;
+	-moz-box-shadow: 1px 1px 5px #999;
+	-webkit-box-shadow: 1px 1px 5px #999;
+        box-shadow: 1px 1px 5px #999;
+}

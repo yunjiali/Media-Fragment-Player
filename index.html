@@ -3,119 +3,93 @@
 	xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
   <head>
   	<!-- meta data -->
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Synote Media Fragment Player Home page</title>
-    <meta name="description" content="Synote Media Fragment Player home page" />
-    <meta name="author" content="Yunjia Li" />
+  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="author" content="Yunjia Li"/>
+	<meta name="description" content="Synote Media Fragment Player demo page" />
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	
+	<!-- development src-->
+	
+	<link rel="stylesheet" type="text/css" href="build/mediaelementplayer.min.css" />
+	<link rel="stylesheet" type="text/css" href="src/css/smfplayer.css" />
+	<script type="text/javascript" src="src/jquery.url.js"></script>
+	<script type="text/javascript" src="src/mediafragments.js"></script>
+	<script type="text/javascript" src="build/mediaelement-and-player.min.js"></script>
+	<script type="text/javascript" src="src/synote.multimedia.namespace.js"></script>
+	<script type="text/javascript" src="src/synote.multimedia.utils.js"></script>
+	<script type="text/javascript" src="src/synotemfplayer.js"></script>
+	
+	<!-- product src -->
+	<!--<link rel="stylesheet" type="text/css" href="build/mediaelementplayer.min.css" />
+	<link rel="stylesheet" type="text/css" href="build/smfplayer.css" />
+	<script type="text/javascript" src="build/mediaelement-and-player.min.js"></script>
+	<script type="text/javascript" src="build/smfplayer.min.js"></script>-->
+	
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <!-- stylessheets -->
-   	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css" media="all" />
-    <link rel="stylesheet" href="css/default.css" media="all" />
-    <!-- javascript -->
+	<title>Synote Media Fragment Player Demo</title>
+    
+    <script type="text/javascript">
+    	$(document).ready(function(){	    	
+	    	
+	    	
+	    		//if($("#player_div").data('smfplayer') !== undefined)
+	    		//{
+	    			//console.log('destroy');
+	    		//	$("#player_div").smfplayer('destroy');
+	    		//}
+	    		
+		    	var mfuri = "http://synote.org/resource/yunjiali/bigbuck.mp4#t=11,19&xywh=120,120,120,120";
+		    	var player = $("#player_div").smfplayer({
+		    		mfURI:mfuri, 
+		    		mfAlwaysEnabled:false,
+		    		autoStart:false,
+		    		success:function(mediaElement,domObject,p){
+			    		mediaElement.addEventListener('timeupdate', function(e){
+				    		var ct = mediaElement.currentTime;
+				    		$("#currenttime_span").text(ct);
+			    		});
+		    		}
+		    	});
+		    	
+		    	console.log("a");
+		    	
+		    	if(player !== undefined)
+			    {
+			    	$("#controls_div").show();	
+			    	$("#pause_btn").click(function(){
+				    	player.pause();
+			    	});
+			    	$("#play_btn").click(function(){
+				    	player.play();
+			    	});
+			    	$("#mf_btn").click(function(){
+				    	player.playmf();
+			    	});
+			    }
+	    	 	
+    	});
+    </script>
+    
   </head>
 
   <body>
-    <div class="topbar">
-      <div class="fill">
-        <div class="container">
-          <a class="brand" href="#">Synote Media Fragment Player</a>
-          <div class="pull-right">
-          	<ul class="nav">
-	            <li class="active"><a href="#">Home</a></li>
-	            <li><a href="tc.html">Test Cases</a></li>
-	            <li><a href="demo.html">Demo</a></li>
-	            <li><a href="about.html">About</a></li>
-	          </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+  	<h1>Synote Media Fragment Player Demo</h1>
     <div class="container">
-      <div class="content">
-        <div class="page-header">
-          <h1>Home Page</h1>
+        <div class="row-fluid">
+	        <div class="span11 offset1">
+	        	<div id="player_div">
+		        	
+	        	</div>
+	        	<div id="controls_div" style="display:none;">
+		        	<button class="btn" id="play_btn">Play</button>
+		        	<button class="btn" id="pause_btn">Pause</button>
+		        	<button class="btn" id="stop_btn">Stop</button>
+		        	<button class="btn" id="mf_btn">Play MF</button>
+		        	<div style="display:inline;">CurrentTime:<span id="currenttime_span"></span></div>
+	        	</div>
+	      	</div>
         </div>
-        <div class="row">
-          <div class="span14">
-            <h2>What is Synote Media Fragment Player</h2>
-            <p>
-            	Synote Media Fragment Player is a cross-browser and cross-platform player to visualise <a href="http://www.w3.org/TR/media-frags/" target="_blank">Media Fragment URIs</a>. The player 
-            	is a client-side implementation of <a href="http://www.w3.org/TR/media-frags/" target="_blank">W3C Media Fragment URI 1.0</a>. The initial work started from the <a href="http://www.synote.org" target="_blank">Synote</a> 
-            	project, which is synchronised annotation system for audio and video replaying.
-            </p>
-            <p>
-            	Given a media resource URI on the Web, Synote Media Fragment Player will automatically choose the suitable player to play back the audio or video resource based on the audio/video format, the browser and the platform. The 
-            	fragment information will be detected and the visual output will be delivered on the Web page. We also define the commonly used APIs for developers to control the player, such as play, pause, stop, forward, rewind, getPosition, 
-            	setPosition, etc. Currently, we only implement the temporal dimension. The spatial, track and name axes, which are defined in <a href="http://www.w3.org/TR/media-frags/" target="_blank">W3C Media Fragment URI 1.0</a> 
-            	will be implemented later.
-            </p>
-            <ul>
-            	<li>
-            		Supported file format: mp3, aac, m4a, ogg, wav, mp4, mov, f4v, flv, 3gp,3g2, ogv, webm, youtube.com, youtu.be, wma, wmv, avi, mpg, mpeg, m1v, mp2, mpa
-            	</li><li>	
-            		Supported browser: IE 8+ (partially, some formats do not replay correctly), Firefox 4+, Latest Google Chrome, Latest Safari
-            	</li><li>
-            		Supported platform: Windows, Mac OS X, Linux
-            	</li>
-            </ul>
-            <span class="label important">Important</span>
-            <p>
-            	Some players need special plugin or add-on for the browser. For example, to play wmv in Firefox, Sliverlight plugin will be needed.
-            </p>
-            <a class="btn info" href="https://github.com/yunjiali/Media-Fragment-Player" target="_blank">Download</a>
-          </div>
-        </div>
-        <div class="row">
-          <div class="span16">
-            <h2>Example Media Fragment URIs</h2>
-            <div style="margin-top:15px;margin-bottom:15px;">
-            	<a href="demo.html?mfuri=http%3A%2F%2Fwww.w3.org%2F2008%2FWebVideo%2FFragments%2Fmedia%2Ffragf2f.ogv%23t%3D10%2C20">http://www.w3.org/2008/WebVideo/Fragments/media/fragf2f.ogv#t=10,20</a>
-            	<br/><a href="demo.html?mfuri=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DKkWI-DHLD_M%23t%3D10%2C20">http://www.youtube.com/watch?v=KkWI-DHLD_M#t=10,20</a>
-            	<br/><br/><a href="tc.html" class="btn primary">More test cases</a>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="span16">
-            <h2>Dependency Libraries</h2>
-            <ul>
-            	<li>
-            		<a href="https://github.com/tomayac/Media-Fragments-URI/" target="_blank">Media fragment parser</a> (by Thomas Steiner)
-            	</li>
-            	<li>
-            		jQuery 1.6.2
-            	</li>
-            	<li>
-            		JW player 5
-            	</li>
-            	<li>
-            		JW Sliverlight Player (Modified)
-            	</li>
-            	<li>
-            		jQuery Media Plugin
-            	</li>
-            	<li>
-            		jQuery url Plugin
-            	</li>
-            	<li>
-            		jQuery timer Plugin
-            	</li>
-            	<li>
-            		Base.js, version 1.1a
-            	</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <footer>
-        <p>&copy; 2011 University of Southampton</p>
-      </footer>
-
     </div> <!-- /container -->
 
   </body>
