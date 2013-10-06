@@ -3,14 +3,15 @@
 	var VERBOSE=false;
 	
 	var self; //save the instance of current smfplayer object
-	var mfreplay=true; //replay the mf whent he video starts, but the mf will only be replayed once
+	var mfreplay=true; //replay the mf when the video starts, but the mf will only be replayed once
+	var setPositionLock=false; //sometimes the setPostion(position) will set a currentTime that around the actual 'position'. If this happens, the timeupdate event should not trigger setPosition again when the position > currentTime
 	
 	//more options can be found at http://mediaelementjs.com/#api
 	var defaults = {
-			width:640, //the width in pixal of the video on the webpage, no matter if it's audio or video
-			height:480, //the height in pixal of the video on the webpage, no matter if it's audio or video
-			originalWidth:320, //the original width in pixal of the video, used for spatial fragment 
-			originalHeight:240, //the original height in pixal of the video, used for spatial fragment
+			width:640, //the width in pixel of the video on the webpage, no matter if it's audio or video
+			height:480, //the height in pixel of the video on the webpage, no matter if it's audio or video
+			originalWidth:320, //the original width in pixel of the video, used for spatial fragment 
+			originalHeight:240, //the original height in pixel of the video, used for spatial fragment
 			isVideo:true, //is the URI indicating a video or audio
 			mfAlwaysEnabled:false, //the media fragment is always enabled, i.e. you can only play the media fragment
 			spatialEnabled:true, //spatial dimension of the media fragment is enabled
@@ -320,8 +321,9 @@
 					        var st = lazyObj.st;
 					        var et = lazyObj.et;
 					        var xywh = lazyObj.xywh;
-					        					        
-					        if(currentTime <= et && currentTime>=st)
+					        
+					        //console.log("ct:"+currentTime);			        
+					        if(currentTime < et && currentTime>st)
 					        {
 						        if(data !== undefined)
 						        {
@@ -333,6 +335,11 @@
 								        }
 								    }
 						        }
+						        if(setPositionLock === true)
+						        {
+						        	//console.log("true:"+currentTime);  	
+						        	setPositionLock = false;
+						        }
 						    }
 					        else
 					        {
@@ -340,48 +347,70 @@
 						        {
 						        	self.hidexywh();
 						        }
-					        }
-					        
-					        if(settings.mfAlwaysEnabled === true)
-					        {
-					         	
-					         	if(et>0)
-					         	{
-						         	if(currentTime>et)
-						         	{
-						         		self.setPosition(et*1000);
-						         		mediaElement.pause();
-						         	}
-						         	else if(currentTime<st)
-						         	{
-							         	self.setPosition(st*1000)
-							         	mediaElement.play();
-						         	}
-					         	}
-					         	else //from the st to the very end of the video
-					         	{
-						         	if(currentTime<st)
-						         	{
-							         	self.setPosition(st*1000);
-							         	mediaElement.play();
-						         	}
-					         	}   
-					        }
-					        else if(mfreplay === true)
-					        {
-					            if(currentTime < st)
-					            {
-						            self.setPosition(st*1000);
-					            }
-					            else if(currentTime>et)
-					            {
-						            mediaElement.pause();
-						            mfreplay = false;
-					            }
+						        
+						        if(mfreplay === true || settings.mfAlwaysEnabled === true)
+						        {
+						           
+						            if(currentTime>et)
+						            {
+							            mediaElement.pause();
+							            self.setPosition(et*1000);
+							            mfreplay = false;
+						            }
+						            else if(currentTime < st)
+						            {
+							            if(setPositionLock === false)
+							            {
+							            	//console.log("false:"+currentTime);
+							            	self.setPosition(st*1000);
+							            	setPositionLock = true;
+							            }
+						            }
+						        }
 					        }
 			        				             
 					    }, false);
 				        
+				        mediaElement.addEventListener('play', function(e) {
+					        
+					        var currentTime = mediaElement.currentTime;
+					        var data = $(self).data('smfplayer');
+					        
+					        if(data === undefined)
+					        {
+						        return;
+					        }
+					        
+					        var lazyObj = getMfjsonLazy(data.mfjson);
+					        var st = lazyObj.st;
+					        var et = lazyObj.et;
+					     						        
+					        if(mfreplay === true)
+					        {
+					            //console.log("mfreplay:"+currentTime); //add a flag as autostart finished
+					            if(currentTime < st)
+					            {
+						            //console.log("setposition");
+						            if(setPositionLock === false)
+						            {
+						            	self.setPosition(st*1000);
+						            	setPositionLock = true;
+						            }
+					            }
+					            else if(currentTime>et)
+					            {
+						            if(setPositionLock === false)
+						            {
+						            	self.setPosition(et*1000);
+						            	setPositionLock = true;
+						            	mediaElement.pause();
+						            	mfreplay = false;
+						            }
+					            }
+					        }
+					        
+				        },false);
+
 				        
 				        if(options.success !== undefined)
 				        {

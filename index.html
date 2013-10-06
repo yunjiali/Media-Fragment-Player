@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:foaf="http://xmlns.com/foaf/0.1/" 
+	xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+  <head>
+  	<!-- meta data -->
+  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="author" content="Yunjia Li"/>
+	<meta name="description" content="Synote Media Fragment Player demo page" />
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	
+	<!-- development src-->
+	
+	<link rel="stylesheet" type="text/css" href="build/mediaelementplayer.min.css" />
+	<link rel="stylesheet" type="text/css" href="src/css/smfplayer.css" />
+	<script type="text/javascript" src="src/jquery.url.js"></script>
+	<script type="text/javascript" src="src/mediafragments.js"></script>
+	<script type="text/javascript" src="build/mediaelement-and-player.min.js"></script>
+	<script type="text/javascript" src="src/synote.multimedia.namespace.js"></script>
+	<script type="text/javascript" src="src/synote.multimedia.utils.js"></script>
+	<script type="text/javascript" src="src/synotemfplayer.js"></script>
+	
+	<!-- product src -->
+	<!--<link rel="stylesheet" type="text/css" href="build/mediaelementplayer.min.css" />
+	<link rel="stylesheet" type="text/css" href="build/smfplayer.css" />
+	<script type="text/javascript" src="build/mediaelement-and-player.min.js"></script>
+	<script type="text/javascript" src="build/smfplayer.min.js"></script>-->
+	
+
+	<title>Synote Media Fragment Player Demo</title>
+    
+    <script type="text/javascript">
+    	$(document).ready(function(){	    	
+	    	
+	    	
+	    		//if($("#player_div").data('smfplayer') !== undefined)
+	    		//{
+	    			//console.log('destroy');
+	    		//	$("#player_div").smfplayer('destroy');
+	    		//}
+	    		
+		    	var mfuri = "http://synote.org/resource/yunjiali/bigbuck.mp4#t=11,19&xywh=120,120,120,120";
+		    	var player = $("#player_div").smfplayer({
+		    		mfURI:mfuri, 
+		    		mfAlwaysEnabled:false,
+		    		autoStart:false,
+		    		success:function(mediaElement,domObject,p){
+			    		mediaElement.addEventListener('timeupdate', function(e){
+				    		var ct = mediaElement.currentTime;
+				    		$("#currenttime_span").text(ct);
+			    		});
+		    		}
+		    	});
+		    	
+		    	console.log("a");
+		    	
+		    	if(player !== undefined)
+			    {
+			    	$("#controls_div").show();	
+			    	$("#pause_btn").click(function(){
+				    	player.pause();
+			    	});
+			    	$("#play_btn").click(function(){
+				    	player.play();
+			    	});
+			    	$("#mf_btn").click(function(){
+				    	player.playmf();
+			    	});
+			    }
+	    	 	
+    	});
+    </script>
+    
+  </head>
+
+  <body>
+  	<h1>Synote Media Fragment Player Demo</h1>
+    <div class="container">
+        <div class="row-fluid">
+	        <div class="span11 offset1">
+	        	<div id="player_div">
+		        	
+	        	</div>
+	        	<div id="controls_div" style="display:none;">
+		        	<button class="btn" id="play_btn">Play</button>
+		        	<button class="btn" id="pause_btn">Pause</button>
+		        	<button class="btn" id="stop_btn">Stop</button>
+		        	<button class="btn" id="mf_btn">Play MF</button>
+		        	<div style="display:inline;">CurrentTime:<span id="currenttime_span"></span></div>
+	        	</div>
+	      	</div>
+        </div>
+    </div> <!-- /container -->
+
+  </body>
+</html>
