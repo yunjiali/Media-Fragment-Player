@@ -39,35 +39,94 @@
 	    		//	$("#player_div").smfplayer('destroy');
 	    		//}
 	    		
-		    	var mfuri = "http://synote.org/resource/yunjiali/bigbuck.mp4#t=11,19&xywh=120,120,120,120";
-		    	var player = $("#player_div").smfplayer({
-		    		mfURI:mfuri, 
+		    	var mfuri_mp4 = "http://synote.org/resource/yunjiali/bigbuck.mp4#t=11,19&xywh=120,120,120,120";
+		    	var player_mp4 = $("#player_mp4_div").smfplayer({
+		    		mfURI:mfuri_mp4, 
 		    		mfAlwaysEnabled:false,
+		    		width:480,
+		    		height:320,
 		    		autoStart:false,
 		    		success:function(mediaElement,domObject,p){
 			    		mediaElement.addEventListener('timeupdate', function(e){
 				    		var ct = mediaElement.currentTime;
-				    		$("#currenttime_span").text(ct);
+				    		$("#currenttime_mp4_span").text(ct);
 			    		});
 		    		}
 		    	});
-		    	
-		    	console.log("a");
-		    	
-		    	if(player !== undefined)
+		    			    	
+		    	if(player_mp4 !== undefined)
 			    {
-			    	$("#controls_div").show();	
-			    	$("#pause_btn").click(function(){
-				    	player.pause();
+			    	$("#controls_mp4_div").show();	
+			    	$("#pause_mp4_btn").click(function(){
+				    	player_mp4.pause();
 			    	});
-			    	$("#play_btn").click(function(){
-				    	player.play();
+			    	$("#play_mp4_btn").click(function(){
+				    	player_mp4.play();
 			    	});
-			    	$("#mf_btn").click(function(){
-				    	player.playmf();
+			    	$("#mf_mp4_btn").click(function(){
+				    	player_mp4.playmf();
 			    	});
 			    }
-	    	 	
+
+			    //youtube1
+			    var mfuri_yt1 = "http://www.youtube.com/watch?v=Ug6XAw6hzaw#t=00:01:30,00:01:33&xywh=40,220,200,50";
+		    	var player_yt1 = $("#player_yt1_div").smfplayer({
+		    		mfURI:mfuri_yt1, 
+		    		mfAlwaysEnabled:false,
+		    		autoStart:false,
+		    		width:480,
+		    		height:320,
+		    		success:function(mediaElement,domObject,p){
+			    		mediaElement.addEventListener('timeupdate', function(e){
+				    		var ct = mediaElement.currentTime;
+				    		$("#currenttime_yt1_span").text(ct);
+			    		});
+		    		}
+		    	});
+		    			    	
+		    	if(player_yt1 !== undefined)
+			    {
+			    	$("#controls_yt1_div").show();	
+			    	$("#pause_yt1_btn").click(function(){
+				    	player_yt1.pause();
+			    	});
+			    	$("#play_yt1_btn").click(function(){
+				    	player_yt1.play();
+			    	});
+			    	$("#mf_yt1_btn").click(function(){
+				    	player_yt1.playmf();
+			    	});
+			    }
+
+			    //youtube2
+			    var mfuri_yt2 = "http://www.youtube.com/watch?v=K8_IucR0l7Q#t=00:02:56,00:03:02&xywh=90,190,200,70";
+		    	var player_yt2 = $("#player_yt2_div").smfplayer({
+		    		mfURI:mfuri_yt2, 
+		    		mfAlwaysEnabled:false,
+		    		autoStart:false,
+		    		width:480,
+		    		height:320,
+		    		success:function(mediaElement,domObject,p){
+			    		mediaElement.addEventListener('timeupdate', function(e){
+				    		var ct = mediaElement.currentTime;
+				    		$("#currenttime_yt2_span").text(ct);
+			    		});
+		    		}
+		    	});
+		    			    	
+		    	if(player_yt2 !== undefined)
+			    {
+			    	$("#controls_yt2_div").show();	
+			    	$("#pause_yt2_btn").click(function(){
+				    	player_yt2.pause();
+			    	});
+			    	$("#play_yt2_btn").click(function(){
+				    	player_yt1.play();
+			    	});
+			    	$("#mf_yt2_btn").click(function(){
+				    	player_yt1.playmf();
+			    	});
+			    }
     	});
     </script>
     
@@ -76,17 +135,48 @@
   <body>
   	<h1>Synote Media Fragment Player Demo</h1>
     <div class="container">
+    	<h2>Mp4 file online</h2>
         <div class="row-fluid">
 	        <div class="span11 offset1">
-	        	<div id="player_div">
+	        	<div id="player_mp4_div">
 		        	
 	        	</div>
-	        	<div id="controls_div" style="display:none;">
-		        	<button class="btn" id="play_btn">Play</button>
-		        	<button class="btn" id="pause_btn">Pause</button>
-		        	<button class="btn" id="stop_btn">Stop</button>
-		        	<button class="btn" id="mf_btn">Play MF</button>
-		        	<div style="display:inline;">CurrentTime:<span id="currenttime_span"></span></div>
+	        	<div id="controls_mp4_div" style="display:none;">
+		        	<button class="btn" id="play_mp4_btn">Play</button>
+		        	<button class="btn" id="pause_mp4_btn">Pause</button>
+		        	<button class="btn" id="stop_mp4_btn">Stop</button>
+		        	<button class="btn" id="mf_mp4_btn">Play MF</button>
+		        	<div style="display:inline;">CurrentTime:<span id="currenttime_mp4_span"></span></div>
+	        	</div>
+	      	</div>
+        </div>
+        <h2>YouTube Video 1</h2>
+        <div class="row-fluid">
+	        <div class="span11 offset1">
+	        	<div id="player_yt1_div">
+		        	
+	        	</div>
+	        	<div id="controls_yt1_div" style="display:none;">
+		        	<button class="btn" id="play_yt1_btn">Play</button>
+		        	<button class="btn" id="pause_yt1_btn">Pause</button>
+		        	<button class="btn" id="stop_yt1_btn">Stop</button>
+		        	<button class="btn" id="mf_yt1_btn">Play MF</button>
+		        	<div style="display:inline;">CurrentTime:<span id="currenttime_yt1_span"></span></div>
+	        	</div>
+	      	</div>
+        </div>
+        <h2>YouTube Video 2</h2>
+        <div class="row-fluid">
+	        <div class="span11 offset1">
+	        	<div id="player_yt2_div">
+		        	
+	        	</div>
+	        	<div id="controls_yt2_div" style="display:none;">
+		        	<button class="btn" id="play_yt2_btn">Play</button>
+		        	<button class="btn" id="pause_yt2_btn">Pause</button>
+		        	<button class="btn" id="stop_yt2_btn">Stop</button>
+		        	<button class="btn" id="mf_yt2_btn">Play MF</button>
+		        	<div style="display:inline;">CurrentTime:<span id="currenttime_yt2_span"></span></div>
 	        	</div>
 	      	</div>
         </div>
