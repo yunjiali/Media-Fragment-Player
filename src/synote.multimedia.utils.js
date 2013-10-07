@@ -49,8 +49,8 @@ smfplayer.utils={
 	
 	getTemporalMF:function(t)
 	{
-		var st = t.start?t.startNormalized:0;
-       	var et = t.end?t.endNormalized:durationMax; //-1 means no end time is provided
+		var st = t.start?t.startNormalized:0;	
+       	var et = t.end?t.endNormalized:this.durationMax; //-1 means no end time is provided
        	st = parseFloat(st);//in seconds
        	et = parseFloat(et);//in seconds
        	var tObj = {st:st, et:et};
