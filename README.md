@@ -27,10 +27,10 @@ Then the related javascript and css files will be minfied and put into the _buil
 
 *v1.0*
 
-*Fix a bug that multiple players cannot be initialised on the same page
-*Add getOptions function
-*Add support for initialising subtitles in multiple languages
-*Update the demo page
+* Fix a bug that multiple players cannot be initialised on the same page
+* Add getOptions function
+* Add support for initialising subtitles in multiple languages
+* Update the demo page
 
 *v1.0-alpha*
 
