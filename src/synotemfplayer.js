@@ -11,9 +11,9 @@
 			mfAlwaysEnabled:false, //the media fragment is always enabled, i.e. you can only play the media fragment
 			spatialEnabled:true, //spatial dimension of the media fragment is enabled
 			spatialStyle:{}, //a json object to specify the style of the outline of the spatial area
-			autoStart:true //auto start playing after initialising the player
+			autoStart:true, //auto start playing after initialising the player
 			//xywhoverlay: jquery object of a div to identify xywh area
-			//subtitles: a JSON object, lang is the key and the uri of the subtitle is the value, the first pair is the default subtitle
+			tracks: []//a JSON array like {srclang:"en", kind:"subtitles", type:"text/vtt", src:"somefile.vtt"} or {srclang:"zh", kind:"chapter", type:"text/plain", src:"somefile.srt"} 
 	};
 				  
 	var methods = {
@@ -154,6 +154,7 @@
 				}	
 			};
 			
+			/* Removed as it doesn't match the specification
 			this.stop =function(){
 				
 				if(VERBOSE)
@@ -166,7 +167,7 @@
 					console.error("smfplayer hasn't been initalised");
 				
 				
-			};
+			};*/
 			
 			this.load =function(){
 				
@@ -235,6 +236,18 @@
 			this.getMeplayer = function()
 			{
 				return $(this).data('smfplayer').smfplayer;
+			}
+
+			//get the setting options
+			this.getOptions = function()
+			{
+				return $(this).data('smfplayer').settings;
+			}
+
+			//get the video/audio dom object
+			this.getDomObject = function()
+			{
+				return $(this).data('smfplayer').smfplayer.domNode;
 			}
 			
 			/*-----------Public attributes declaration ends----------------*/
@@ -506,9 +519,11 @@
 						}
 					} 
 		           
-		           //TODO: init subtitles
-		           if(settings.subtitles !== undefined)
-		           		$this.initSubtitles(mm, settings.subtitles)
+		           	//init tracks
+		           	$.each(settings.tracks,function(idx, trackObj){
+		           		var track = $("<track/>").appendTo(mm);
+		           		track.prop("srclang",trackObj.srclang).prop("kind",trackObj.kind).prop("type",trackObj.type).prop("src",trackObj.src);
+		           	});
 		           		           
 		           		           
 		           //call mediaelemntjs
@@ -562,11 +577,6 @@
 	   		xywh = mfjson.hash.xywh[0];
 	   	
 	   	return {st:st,et:et,xywh:xywh}
-  };
-  
-  var initSubtitles=function(mm,sobj)
-  {
-		return;
   };
     
   $.fn.smfplayer = function( method ) {

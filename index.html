@@ -30,6 +30,7 @@
 	<title>Synote Media Fragment Player Demo</title>
     
     <script type="text/javascript">
+    	var playerArr = []
     	$(document).ready(function(){	    	
 	    	
 	    	
@@ -56,6 +57,7 @@
 		    			    	
 		    	if(player_mp4 !== undefined)
 			    {
+			    	playerArr.push(player_mp4);
 			    	$("#controls_mp4_div").show();	
 			    	$("#pause_mp4_btn").click(function(){
 				    	player_mp4.pause();
@@ -66,6 +68,8 @@
 			    	$("#mf_mp4_btn").click(function(){
 				    	player_mp4.playmf();
 			    	});
+
+			    	$("#options_mp4_div").text(player_mp4.getOptions().mfURI).show();
 			    }
 
 			    //youtube1
@@ -86,6 +90,7 @@
 		    			    	
 		    	if(player_yt1 !== undefined)
 			    {
+			    	playerArr.push(player_yt1);
 			    	$("#controls_yt1_div").show();	
 			    	$("#pause_yt1_btn").click(function(){
 				    	player_yt1.pause();
@@ -96,6 +101,7 @@
 			    	$("#mf_yt1_btn").click(function(){
 				    	player_yt1.playmf();
 			    	});
+			    	$("#options_yt1_div").text(player_yt1.getOptions().mfURI).show();
 			    }
 
 			    //youtube2
@@ -116,6 +122,7 @@
 		    			    	
 		    	if(player_yt2 !== undefined)
 			    {
+			    	playerArr.push(player_yt2);
 			    	$("#controls_yt2_div").show();	
 			    	$("#pause_yt2_btn").click(function(){
 				    	player_yt2.pause();
@@ -126,6 +133,49 @@
 			    	$("#mf_yt2_btn").click(function(){
 				    	player_yt1.playmf();
 			    	});
+			    	$("#options_yt2_div").text(player_yt2.getOptions().mfURI).show();
+			    }
+
+			    //multiple subtitle
+			    //http://www.youtube.com/watch?v=6OFXDcO7VCc
+			    var mfuri_sub = "http://www.youtube.com/watch?v=6OFXDcO7VCc#t=30";
+			    var tracks = [{srclang:"en", kind:"subtitles", type:"text/plain", src:"resources/en.srt"},
+		    				{srclang:"ja", kind:"subtitles", type:"text/plain", src:"resources/ja.srt"},
+		    				{srclang:"zh", kind:"subtitles", type:"text/plain", src:"resources/zh.srt"}];
+
+		    	var player_sub = $("#player_sub_div").smfplayer({
+		    		mfURI:mfuri_sub, 
+		    		mfAlwaysEnabled:false,
+		    		autoStart:false,
+		    		width:480,
+		    		height:320,
+		    		success:function(mediaElement,domObject,p){
+			    		mediaElement.addEventListener('timeupdate', function(e){
+				    		var ct = mediaElement.currentTime;
+				    		$("#currenttime_sub_span").text(ct);
+			    		});
+		    		},
+		    		tracks:tracks
+		    	});
+		    			    	
+		    	if(player_sub !== undefined)
+			    {
+			    	playerArr.push(player_sub);
+			    	$("#controls_sub_div").show();	
+			    	$("#pause_sub_btn").click(function(){
+				    	player_yt2.pause();
+			    	});
+			    	$("#play_sub_btn").click(function(){
+				    	player_yt1.play();
+			    	});
+			    	$("#mf_sub_btn").click(function(){
+				    	player_yt1.playmf();
+			    	});
+			    	var srts = "Available subtitles:";
+			    	$.each(tracks,function(idx,track){
+			    		srts+=" "+track.srclang;
+			    	});
+			    	$("#options_sub_div").text(srts).show();
 			    }
     	});
     </script>
@@ -144,10 +194,10 @@
 	        	<div id="controls_mp4_div" style="display:none;">
 		        	<button class="btn" id="play_mp4_btn">Play</button>
 		        	<button class="btn" id="pause_mp4_btn">Pause</button>
-		        	<button class="btn" id="stop_mp4_btn">Stop</button>
 		        	<button class="btn" id="mf_mp4_btn">Play MF</button>
 		        	<div style="display:inline;">CurrentTime:<span id="currenttime_mp4_span"></span></div>
 	        	</div>
+	        	<div id="options_mp4_div" style="display:none"></div>
 	      	</div>
         </div>
         <h2>YouTube Video 1</h2>
@@ -159,10 +209,10 @@
 	        	<div id="controls_yt1_div" style="display:none;">
 		        	<button class="btn" id="play_yt1_btn">Play</button>
 		        	<button class="btn" id="pause_yt1_btn">Pause</button>
-		        	<button class="btn" id="stop_yt1_btn">Stop</button>
 		        	<button class="btn" id="mf_yt1_btn">Play MF</button>
 		        	<div style="display:inline;">CurrentTime:<span id="currenttime_yt1_span"></span></div>
 	        	</div>
+	        	<div id="options_yt1_div" style="display:none"></div>
 	      	</div>
         </div>
         <h2>YouTube Video 2</h2>
@@ -174,10 +224,25 @@
 	        	<div id="controls_yt2_div" style="display:none;">
 		        	<button class="btn" id="play_yt2_btn">Play</button>
 		        	<button class="btn" id="pause_yt2_btn">Pause</button>
-		        	<button class="btn" id="stop_yt2_btn">Stop</button>
 		        	<button class="btn" id="mf_yt2_btn">Play MF</button>
 		        	<div style="display:inline;">CurrentTime:<span id="currenttime_yt2_span"></span></div>
 	        	</div>
+	        	<div id="options_yt2_div" style="display:none"></div>
+	      	</div>
+        </div>
+        <h2>Subtitles</h2>
+        <div class="row-fluid">
+	        <div class="span11 offset1">
+	        	<div id="player_sub_div">
+		        	
+	        	</div>
+	        	<div id="controls_sub_div" style="display:none;">
+		        	<button class="btn" id="play_sub_btn">Play</button>
+		        	<button class="btn" id="pause_sub_btn">Pause</button>
+		        	<button class="btn" id="mf_sub_btn">Play MF</button>
+		        	<div style="display:inline;">CurrentTime:<span id="currenttime_sub_span"></span></div>
+	        	</div>
+	        	<div id="options_sub_div" style="display:none"></div>
 	      	</div>
         </div>
     </div> <!-- /container -->

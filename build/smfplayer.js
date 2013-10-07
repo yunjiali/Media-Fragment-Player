@@ -492,8 +492,8 @@ smfplayer.utils={
 	
 	getTemporalMF:function(t)
 	{
-		var st = t.start?t.startNormalized:0;
-       	var et = t.end?t.endNormalized:durationMax; //-1 means no end time is provided
+		var st = t.start?t.startNormalized:0;	
+       	var et = t.end?t.endNormalized:this.durationMax; //-1 means no end time is provided
        	st = parseFloat(st);//in seconds
        	et = parseFloat(et);//in seconds
        	var tObj = {st:st, et:et};
@@ -665,12 +665,7 @@ smfplayer.utils={
 })(jQuery);
 (function($){
 	
-	var VERBOSE=false;
-	
-	var self; //save the instance of current smfplayer object
-	var mfreplay=true; //replay the mf when the video starts, but the mf will only be replayed once
-	var setPositionLock=false; //sometimes the setPostion(position) will set a currentTime that around the actual 'position'. If this happens, the timeupdate event should not trigger setPosition again when the position > currentTime
-	
+	var VERBOSE=false;	
 	//more options can be found at http://mediaelementjs.com/#api
 	var defaults = {
 			width:640, //the width in pixel of the video on the webpage, no matter if it's audio or video
@@ -681,21 +676,16 @@ smfplayer.utils={
 			mfAlwaysEnabled:false, //the media fragment is always enabled, i.e. you can only play the media fragment
 			spatialEnabled:true, //spatial dimension of the media fragment is enabled
 			spatialStyle:{}, //a json object to specify the style of the outline of the spatial area
-			autoStart:true //auto start playing after initialising the player
+			autoStart:true, //auto start playing after initialising the player
 			//xywhoverlay: jquery object of a div to identify xywh area
-			//subtitles: a JSON object, lang is the key and the uri of the subtitle is the value, the first pair is the default subtitle
+			tracks: []//a JSON array like {srclang:"en", kind:"subtitles", type:"text/vtt", src:"somefile.vtt"} or {srclang:"zh", kind:"chapter", type:"text/plain", src:"somefile.srt"} 
 	};
 				  
 	var methods = {
      	init : function( options ) {
      		
-	     	self = this;
-	     	var settings = $.extend({},defaults,options);
-	     	if(settings.mfURI === undefined)
-           	{
-           		console.error("mfURI cannot be null!");
-           		return false;
-           	}
+	     	var self = this; ///save the instance of current smfplayer object
+
            	/*----------Declare public functions---------------------*/
            	this.pause = function(){
 				
@@ -750,7 +740,7 @@ smfplayer.utils={
 				if(player.media.paused)
 					player.play();
 					
-				this.mfreplay = true;
+				data.mfreplay = true;
 			};
 			this.showxywh = function(xywh)
 			{
@@ -829,6 +819,7 @@ smfplayer.utils={
 				}	
 			};
 			
+			/* Removed as it doesn't match the specification
 			this.stop =function(){
 				
 				if(VERBOSE)
@@ -841,7 +832,7 @@ smfplayer.utils={
 					console.error("smfplayer hasn't been initalised");
 				
 				
-			};
+			};*/
 			
 			this.load =function(){
 				
@@ -911,14 +902,50 @@ smfplayer.utils={
 			{
 				return $(this).data('smfplayer').smfplayer;
 			}
+
+			//get the setting options
+			this.getOptions = function()
+			{
+				return $(this).data('smfplayer').settings;
+			}
+
+			//get the video/audio dom object
+			this.getDomObject = function()
+			{
+				return $(this).data('smfplayer').smfplayer.domNode;
+			}
 			
 			/*-----------Public attributes declaration ends----------------*/
-           	//parse media fragment
-           	var mfjson = MediaFragments.parseMediaFragmentsUri(settings.mfURI);
-           	//if(VERBOSE)
-		    //      console.log(mfjson);
            	
-	     	settings.success = function(mediaElement,domObject,p){
+	     	//console.log("before each");  
+	     	//console.log(this);		     			     	
+	     	return this.each(function(){
+         
+		     	var $this = $(this);
+				var data = $this.data('smfplayer');
+				
+				//console.log("each");
+				//console.log(data);
+                     
+		     	// If the plugin hasn't been initialized yet
+		     	if ( data === undefined ) {
+		     	
+			     	if(VERBOSE)
+			     		console.log("init smfplayer data");
+
+			     	var settings = $.extend({},defaults,options);
+	     			if(settings.mfURI === undefined)
+           			{
+           				console.error("mfURI cannot be null!");
+           				return false;
+           			}
+
+           			//parse media fragment
+		           	var mfjson = MediaFragments.parseMediaFragmentsUri(settings.mfURI);
+		           	//if(VERBOSE)
+				    //      console.log(mfjson);
+
+				    settings.success = function(mediaElement,domObject,p){
 	     			     				
 	     				if(VERBOSE)
 							console.log("smfplayer init success.");
@@ -1000,10 +1027,10 @@ smfplayer.utils={
 								        }
 								    }
 						        }
-						        if(setPositionLock === true)
+						        if(data.setPositionLock === true)
 						        {
 						        	//console.log("true:"+currentTime);  	
-						        	setPositionLock = false;
+						        	data.setPositionLock = false;
 						        }
 						    }
 					        else
@@ -1013,22 +1040,22 @@ smfplayer.utils={
 						        	self.hidexywh();
 						        }
 						        
-						        if(mfreplay === true || settings.mfAlwaysEnabled === true)
+						        if(data.mfreplay === true || settings.mfAlwaysEnabled === true)
 						        {
 						           
 						            if(currentTime>et)
 						            {
 							            mediaElement.pause();
 							            self.setPosition(et*1000);
-							            mfreplay = false;
+							            data.mfreplay = false;
 						            }
 						            else if(currentTime < st)
 						            {
-							            if(setPositionLock === false)
+							            if(data.setPositionLock === false)
 							            {
 							            	//console.log("false:"+currentTime);
 							            	self.setPosition(st*1000);
-							            	setPositionLock = true;
+							            	data.setPositionLock = true;
 							            }
 						            }
 						        }
@@ -1045,31 +1072,31 @@ smfplayer.utils={
 					        {
 						        return;
 					        }
-					        
 					        var lazyObj = getMfjsonLazy(data.mfjson);
 					        var st = lazyObj.st;
 					        var et = lazyObj.et;
 					     						        
-					        if(mfreplay === true)
+					        if(data.mfreplay === true)
 					        {
 					            //console.log("mfreplay:"+currentTime); //add a flag as autostart finished
 					            if(currentTime < st)
 					            {
-						            //console.log("setposition");
-						            if(setPositionLock === false)
+						            //console.log("setposition:"+st+"::"+setPositionLock);
+						            if(data.setPositionLock === false)
 						            {
 						            	self.setPosition(st*1000);
-						            	setPositionLock = true;
+						            	data.setPositionLock = true;
 						            }
 					            }
 					            else if(currentTime>et)
 					            {
-						            if(setPositionLock === false)
+						            //console.log("no:"+et+"::"+setPositionLock);
+						            if(data.setPositionLock === false)
 						            {
 						            	self.setPosition(et*1000);
-						            	setPositionLock = true;
+						            	data.setPositionLock = true;
 						            	mediaElement.pause();
-						            	mfreplay = false;
+						            	data.mfreplay = false;
 						            }
 					            }
 					        }
@@ -1085,30 +1112,15 @@ smfplayer.utils={
 				        	return;
 	     			};
 	     	
-	     	settings.error = function()
-	     	{
-		    	 if(options.error !== undefined)
-		    	 {
-			        	return options.error.call(this);
-			     }
-		         else
-		        		return;	
-	     	}; 
-	     	//console.log("before each");  
-	     	//console.log(this);		     			     	
-	     	return this.each(function(){
-         
-		     	var $this = $(this);
-				var data = $this.data('smfplayer');
-				
-				//console.log("each");
-				//console.log(data);
-                     
-		     	// If the plugin hasn't been initialized yet
-		     	if ( data === undefined ) {
-		     	
-			     	if(VERBOSE)
-			     		console.log("init smfplayer data");
+			     	settings.error = function()
+			     	{
+				    	 if(options.error !== undefined)
+				    	 {
+					        	return options.error.call(this);
+					     }
+				         else
+				        		return;	
+			     	}; 
   
 		           	var videosrc = settings.mfURI;
 		           	//remove the hash for the url
@@ -1172,19 +1184,23 @@ smfplayer.utils={
 						}
 					} 
 		           
-		           //TODO: init subtitles
-		           if(settings.subtitles !== undefined)
-		           		$this.initSubtitles(mm, settings.subtitles)
+		           	//init tracks
+		           	$.each(settings.tracks,function(idx, trackObj){
+		           		var track = $("<track/>").appendTo(mm);
+		           		track.prop("srclang",trackObj.srclang).prop("kind",trackObj.kind).prop("type",trackObj.type).prop("src",trackObj.src);
+		           	});
 		           		           
 		           		           
 		           //call mediaelemntjs
 		           var meplayer = new MediaElementPlayer(mm.get(0),settings);
 		           //console.log(meplayer);
 		           $this.data('smfplayer', {
-			           target : $this,
-			           smfplayer : meplayer,
-			           settings:settings,
-			           mfjson:mfjson
+			           	target : $this,
+			           	smfplayer : meplayer,
+			           	settings:settings,
+			           	mfjson:mfjson,
+			           	mfreplay:true,//replay the mf when the video starts, but the mf will only be replayed once
+						setPositionLock:false //sometimes the setPostion(position) will set a currentTime that around the actual 'position'. If this happens, the timeupdate event should not trigger setPosition again when the position > currentTime
 				   });
 		        }
 		    });
@@ -1226,11 +1242,6 @@ smfplayer.utils={
 	   		xywh = mfjson.hash.xywh[0];
 	   	
 	   	return {st:st,et:et,xywh:xywh}
-  };
-  
-  var initSubtitles=function(mm,sobj)
-  {
-		return;
   };
     
   $.fn.smfplayer = function( method ) {
