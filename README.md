@@ -25,14 +25,14 @@ Then the related javascript and css files will be minfied and put into the _buil
 
 ### Version History
 
-*v1.0*
+*v1.0 (07/10/2013)*
 
 * Fix a bug that multiple players cannot be initialised on the same page
 * Add getOptions function
 * Add support for initialising subtitles in multiple languages
 * Update the demo page
 
-*v1.0-alpha*
+*v1.0-alpha (02/04/2013)*
 
 * First public version for test
 * Use [medialement.js] (http://mediaelementjs.com/) as the backend cross-browers player.
